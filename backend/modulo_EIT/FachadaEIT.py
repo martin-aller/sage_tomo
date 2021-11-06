@@ -7,6 +7,7 @@ from .GestionDatasets import GestionDatasets as gd
 #La clase FachadaEIT actúa como fachada del paquete modulo_EIT y contiene todos
 #los métodos necesarios para hacer uso de las clases de dicho paquete.
 #Línea de prueba.
+#L2.
 
 class FachadaEIT(object):
     #--------------------------------Métodos de GestionFicheros--------------------------------
