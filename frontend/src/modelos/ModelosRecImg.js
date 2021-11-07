@@ -21,8 +21,8 @@ class ModelosRecImg extends Component{
             id_detalles: null,
             id_seleccionado: null,
             error_seleccion: false,
-            mensaje_ayuda: <p>Para poder reconstruir imágenes, debes seleccionar un modelo. Los modelos que puedes seleccionar
-                           son aquéllos que has entrenado tú o los modelos de tipo público entrenados por otros usuarios.</p>,
+            mensaje_ayuda: <p>In order to reconstruct images, you must select a model. The models you can select are those you have trained 
+                            yourself or public models trained by other users.</p>,
 
           }
     }
@@ -143,8 +143,8 @@ class ModelosRecImg extends Component{
         
                         <div className="container card caja">
                                     <div className="card-body ">
-                                        <h3 className="card-title titulo"> Reconstruction of images </h3>
-                                        <h5 className="card-title">Model selection</h5>
+                                        <h3 className="card-title titulo"> <b>Reconstruction of images</b> </h3>
+                                        <h5 className="card-title"><b>Model selection</b></h5>
                                         <p className="card-text">Select a model to make the predictions for the reconstruction of images:</p>
         
                                         <div> {this.state.lista_modelos.length > 0 ? (

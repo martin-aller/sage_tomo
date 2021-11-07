@@ -25,10 +25,10 @@ class SinSesion extends Component{
             <div>
                 <Cabecera/>
                 <div className="card caja mx-auto mb-3 max_width_50" >
-                    <div className="card-header">No has iniciado sesión</div>
+                    <div className="card-header">You are not logged in</div>
                     <div className="card-body">
-                        <h5 className="card-title">Debes iniciar sesión para poder acceder a la aplicación.</h5>
-                        <input type="button" className="btn btn-dark mb-2 float-right" value = "Ir a inicio de sesión" onClick = {() => this.setState({aInicio:true})}/> 
+                        <h5 className="card-title">You must be logged in to access the application.</h5>
+                        <input type="button" className="btn btn-dark mb-2 float-right" value = "Go to login" onClick = {() => this.setState({aInicio:true})}/> 
                     </div>
                 </div>            
             </div>

@@ -180,7 +180,7 @@ class Cabecera extends Component{
                 <ModalAyuda
                     show = {this.state.showModalAyuda}
                     cerrar = {() => this.setModalAyuda(false)}
-                    cabecera = "Ayuda"
+                    cabecera = "Help"
                     mensaje = {this.props.mensaje_ayuda}
                 />
                 <br/>

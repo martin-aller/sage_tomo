@@ -22,10 +22,10 @@ class DatasetSubir extends Component{
             error_estructura: false,
             error_seleccion: false,
             carga: false,
-            mensaje_ayuda: <p>En esta ventana puedes subir y añadir al sistema un dataset. El dataset que subas debe encontrarse en formato CSV, de forma que
-            cada línea contenga, separados por punto y coma, los valores de voltaje, los valores de impedancia y el número de artefactos de cada
-            malla. En caso de que el fichero que selecciones no se encuentre en formato CSV o tenga una estructura incorrecta,
-            se mostrará un error.</p>,
+            mensaje_ayuda: <p>In this window you can upload and add a dataset to the system. The dataset you upload must be in 
+                            CSV format, so that each line contains the voltage values, the conductivity values and the number of 
+                            artifacts from each mesh, all separated by a semicolon. In case the file you select is not in CSV 
+                            format or has an incorrect structure, an error message will be displayed.</p>,
             
         }
 
@@ -111,7 +111,7 @@ class DatasetSubir extends Component{
                             <div className="container">
                                 <div className="card caja">
                                     <div className="card-body" >
-                                        <h5 className="card-title">Upload dataset</h5>
+                                        <h5 className="card-title"><b>Upload dataset</b></h5>
         
         
                                         <Formik
@@ -119,23 +119,23 @@ class DatasetSubir extends Component{
                                             validationSchema={Yup.object({
             
                                             r_min: Yup.number()
-                                                .positive("Debe ser un número positivo.")
-                                                .integer("Debe ser un número entero.")
-                                                .min(1, 'El radio mínimo debe pertenecer al intervalo [1,9].')
-                                                .max(9, 'El radio mínimo debe pertenecer al intervalo [1,9].')
-                                                .required('Campo requerido.'),
+                                                .positive("It must be a positive number.")
+                                                .integer("It must be an integer.")
+                                                .min(1, 'The minimum radius must belong to the interval [1,9].')
+                                                .max(9, 'The minimum radius must belong to the interval [1,9].')
+                                                .required('Required field.'),
                                             r_max: Yup.number()
-                                                .positive("Debe ser un número positivo.")
-                                                .integer("Debe ser un número entero.")
-                                                .min(2, 'El radio máximo debe pertenecer al intervalo [2,10].')
-                                                .max(10, 'El radio máximo debe pertenecer al intervalo [2,10].')
-                                                .required('Campo requerido.'),
+                                                .positive("It must be a positive number.")
+                                                .integer("It must be an integer.")
+                                                .min(2, 'The maximus radius must belong to the interval [2,10].')
+                                                .max(10, 'The maximus radius must belong to the interval [2,10].')
+                                                .required('Required field.'),
                                             semilla: Yup.number()
-                                                .positive("Debe ser un número positivo.")
-                                                .integer("Debe ser un número entero.")
-                                                .min(1, 'La semilla debe pertenecer al intervalo [1,99999999].')
-                                                .max(99999999, 'La semilla debe pertenecer al intervalo [1,99999999].')
-                                                .required('Campo requerido.')
+                                                .positive("It must be a positive number.")
+                                                .integer("It must be an integer.")
+                                                .min(1, 'The seed must belong to the interval [1,99999999].')
+                                                .max(99999999, 'The seed must belong to the interval [1,99999999].')
+                                                .required('Required field.')
                                             })}
                                             onSubmit={(values, { setSubmitting }) => {
                                             setTimeout(() => {
@@ -203,14 +203,14 @@ class DatasetSubir extends Component{
                                                     
                                                     {this.state.error_estructura === true &&
                                                         <div className="alert alert-danger" role="alert" id = "estructura_incorrecta">
-                                                            El formato o la estructura del fichero seleccionado es incorrecta.
+                                                            The format or structure of the selected file is incorrect.
                                                         </div>
                                                     }
         
         
                                                     {this.state.error_seleccion === true &&
                                                         <div className="alert alert-danger row" role="alert" id = "mensaje_informativo" >
-                                                            No has seleccionado ningún fichero.
+                                                            You have not selected a file.
                                                         </div>
                                                     }
         

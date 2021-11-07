@@ -25,13 +25,14 @@ class Datasets extends Component{
             aDatasetEliminado: false,
             aGenerarDataset: false,
             aSubirDataset: false,
-            mensaje_ayuda: <div> <p>En esta página se muestran los datasets que has generado o subido tú o los datasets de tipo público generados o subidos
-                            por otros usuarios.</p>
-                            <p>Puedes consultar la información detallada de cada dataset (número de cuerpos con uno, dos y tres artefactos, radio mínimo
-                            y máximo de los artefactos, etc). También puedes descargar en formato CSV cualquiera de los datasets del listado. En cada una de
-                            las líneas del CSV descargado, se incluirá la información de una malla: voltajes, impedancias y número de artefactos. Estos
-                            valores se encontrarán separados por punto y coma. </p>
-                            <p>Por otra parte, en esta ventana también tienes la posibilidad de eliminar los datasets que hayas entrenado tú.</p></div>
+            mensaje_ayuda: <div> <p>This page shows the datasets that you have generated or uploaded or the public datasets generated 
+                                    or uploaded by other users.</p>
+                            <p>You can consult the detailed information about each dataset (number of bodies with one, two and 
+                                three artifacts, minimum and maximum radius of the artifacts, etc). You can also download in 
+                                CSV format any of the datasets in the list. In each of the lines of the downloaded CSV, the 
+                                information of a mesh will be included: voltages, conductivities and number of artifacts. 
+                                These values will be separated by semicolons.</p>
+                            <p>On the other hand, in this window you also have the possibility to delete the datasets that you have trained yourself.</p></div>
 
           }
 
@@ -180,7 +181,7 @@ class Datasets extends Component{
                             <div className = "row">
                                 <div className="card col-md-12 caja" >
                                 <div className="card-body">
-                                    <h3 className="card-title titulo" > Datasets </h3>
+                                    <h3 className="card-title titulo" > <b>Datasets</b> </h3>
                                     {this.state.cargando === true ? (
                                         <div className="row" id = "cargar">
                                             <div className = "col text-center">

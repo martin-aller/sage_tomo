@@ -13,8 +13,7 @@ class DatasetDetalles extends Component{
         this.state = {
             dataset: null,
             cargando: true,
-            mensaje_ayuda: <span>En esta ventana se muestran todos los detalles del dataset seleccionado. El atributo semilla hace referencia a la semilla empleada
-            a la hora de generar los artefactos.</span>
+            mensaje_ayuda: <span>This window shows all the details from the selected dataset. The seed attribute refers to the seed used to generate the artifacts. </span>
           }
 
     }
@@ -73,7 +72,7 @@ class DatasetDetalles extends Component{
                         ) : (
                             <div className="card bg-light mx-auto mb-3 caja max_width_50">
                                 <div className="card-body">
-                                    <h5 className="card-title">Dataset details</h5>
+                                    <h5 className="card-title"><b>Dataset details</b></h5>
                                     <table className = "table table-striped" >
                                     <tbody>
                                         <tr>

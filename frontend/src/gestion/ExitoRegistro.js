@@ -11,8 +11,8 @@ class ExitoRegistro extends Component{
         super(props);
         this.state = {
             aPrincipal : false,
-            mensaje_ayuda: <p>Ahora que dispones de una cuenta ya puedes hacer uso del sistema TomoSage. En todas las ventanas del
-            sistema dispondrás de un botón de Ayuda, mediante el que podrás obtener la ayuda relevante para la ventana en la que te encuentres.</p>
+            mensaje_ayuda: <p>Now that you have an account, you can use the SageTomo system. You will find a Help button like this 
+                one in every window of the system, where you will be able to get the relevant information for the window you are in.</p>
           }
 
     }
@@ -39,9 +39,9 @@ class ExitoRegistro extends Component{
                     <div>
                         <Cabecera con_cuenta = {true} mensaje_ayuda = {this.state.mensaje_ayuda} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                         <div className="card caja mx-auto mb-3 max_width_50" >
-                            <div className="card-header">Registro realizado</div>
+                            <div className="card-header">Registration completed</div>
                             <div className="card-body">
-                                <h5 className="card-title">Te has registrado con éxito.</h5>
+                                <h5 className="card-title">You have successfully signed up.</h5>
                                 <input type="button" className="btn btn-dark mb-2 float-right" value = "Ir al menú principal" onClick = {() => {this.ir_a_principal()}}/> 
                             </div>
                         </div>

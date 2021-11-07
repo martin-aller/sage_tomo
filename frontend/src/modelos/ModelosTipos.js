@@ -14,8 +14,8 @@ class ModelosTipos extends Component{
             aDNN: false,
             aRF: false,
             aSVM: false,
-            mensaje_ayuda: <p>El sistema permite entrenar tres tipos de modelos diferentes: redes neuronales (DNN), random forest (RF) y máquinas de
-            soporte vectorial (SVM). Selecciona uno de los tipos y podrás definir las características para entrenar un modelo del tipo elegido.</p>
+            mensaje_ayuda: <p>The system allows training three different types of models: neural networks (DNN), random forest (RF) and support vector machines (SVM). Select one of the types and you will be able 
+                            to define the specific parameters to train a model of the chosen type.</p>
 
           }
     }
@@ -57,7 +57,7 @@ class ModelosTipos extends Component{
                             <div className="row" >
                                 <div className="card col-md-4 caja padding_top_1">
                                     <div className="card-body d-flex flex-column text-center ">
-                                        <h5 className="card-title"> Neural Network </h5>
+                                        <h5 className="card-title"> <b>Neural Network</b> </h5>
                                         <img  className = "rounded mx-auto d-block margin_bottom_1" src={process.env.PUBLIC_URL + '/imagenes/dnn.png'}/>
                                         <span className ="mt-auto"><span className="btn btn-dark" onClick = {() => this.setState({aDNN: true})}>Access</span></span>
                                     </div>
@@ -65,7 +65,7 @@ class ModelosTipos extends Component{
         
                                 <div className="card col-md-4 caja padding_top_1">
                                     <div className="card-body d-flex flex-column text-center ">
-                                        <h5 className="card-title"> Random Forest </h5>
+                                        <h5 className="card-title"> <b>Random Forest</b> </h5>
                                         <img  className = "rounded mx-auto d-block margin_bottom_1" src={process.env.PUBLIC_URL + '/imagenes/rf.png'}
                                         width = "65%" height = "65%" />
                                         <span className ="mt-auto"><span className="btn btn-dark" onClick = {() => this.setState({aRF: true})} >Access</span></span>
@@ -74,7 +74,7 @@ class ModelosTipos extends Component{
         
                                 <div className="card col-md-4 caja padding_top_1">
                                     <div className="card-body d-flex flex-column text-center">
-                                        <h5 className="card-title"> Support Vector Machine </h5>
+                                        <h5 className="card-title"> <b>Support Vector Machine </b></h5>
                                         <img  className = "rounded mx-auto d-block margin_bottom_1" src={process.env.PUBLIC_URL + '/imagenes/svm.png'} 
                                         width = "80%" height = "80%" />
                                         <span className ="mt-auto"><a className="btn btn-dark" onClick = {() => this.setState({aSVM: true})} >Access</a></span>

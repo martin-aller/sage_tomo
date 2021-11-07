@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Cabecera from './Cabecera';
+import BotonAtras from './BotonAtras';
 import SinSesion from './SinSesion'
 import axios from 'axios';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
@@ -13,7 +14,7 @@ class  Cuenta extends Component{
         super(props);
         this.state = {
             mensaje_guardado: false,
-            mensaje_ayuda: <p> En esta ventana puedes editar la información personal sobre tu cuenta.</p>
+            mensaje_ayuda: <p> In this window you can edit personal information about your account.</p>
           }
 
     }
@@ -71,8 +72,9 @@ class  Cuenta extends Component{
                 {this.props.location.state !== undefined && "token" in  this.props.location.state ? (
                     <div>
                         <Cabecera con_cuenta = {true} mensaje_ayuda = {this.state.mensaje_ayuda} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
+                        <BotonAtras/>
                         <div className ="card caja mx-auto mb-3 max_width_50" >
-                            <div className ="card-header">Edit information</div>
+                            <div className ="card-header"><b>Edit information</b></div>
                             <div className ="card-body">
                                 <h5 className ="card-title">Your account: {sessionStorage.usuario}</h5>
                                 <Formik
@@ -82,14 +84,14 @@ class  Cuenta extends Component{
                                     validationSchema={Yup.object({
 
                                     nombre: Yup.string()
-                                        .max(100, 'El nombre no puede tener más de 100 caracteres.')
-                                        .required('Campo requerido.'),
+                                        .max(100, 'The first name cannot be longer than 100 characters..')
+                                        .required('Required field.'),
                                     apellidos: Yup.string()
-                                        .max(100, 'El apellido no puede tener más de 100 caracteres.')
-                                        .required('Campo requerido.'),
+                                        .max(100, 'The last name cannot be longer than 100 characters..')
+                                        .required('Required field.'),
                                     correo_electronico: Yup.string()
-                                        .email('Introduce un correo electrónico válido.')
-                                        .required('Campo requerido.'),
+                                        .email('Enter a valid email address.')
+                                        .required('Required field.'),
 
                                     })}
                                     onSubmit={(values, { setSubmitting }) => {

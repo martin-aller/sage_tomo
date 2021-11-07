@@ -24,10 +24,13 @@ class TareasDatasets extends Component{
             aDatasetDescartado: false,
             showModalCancelar: false,
             showModalDescartar: false,
-            mensaje_ayuda: <div>En la tabla superior de esta ventana se muestra el listado de datasets que se encuentran en proceso de ser subidos o generados.
-            Si no deseas continuar con alguna de las tareas en curso, pulsa en Cancelar tarea en la fila del dataset correspondiente. 
-            En la tabla inferior de la ventana se muestran los datasets ya subidos o generados. No podrás hacer uso de un dataset
-            generado hasta que no selecciones la opción Guardar dataset.</div>
+            mensaje_ayuda: <div>The upper table of this window shows the list of datasets that are in the process of being 
+                uploaded or generated. If you do not want to continue with any of the tasks in progress, click on Cancel 
+                task in the row of the corresponding dataset. The lower table of the window shows the datasets already 
+                uploaded or generated. You will not be able to make use of a generated dataset until you select the Save dataset 
+                option.
+
+            </div>
           }
     }
 

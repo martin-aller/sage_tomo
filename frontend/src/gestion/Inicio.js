@@ -16,8 +16,8 @@ class Inicio extends Component{
             mensaje_error: null,
             url_base : "http://127.0.0.1:8000/", //Todas las peticiones al backend tendrán una URL que comience con esta raíz
             token: "",
-            mensaje_ayuda: <p>Para poder hacer uso del sistema SageTomo, necesitas disponer de una cuenta.
-                              Pulsa en Regístrate si deseas crear una nueva cuenta. </p>            
+            mensaje_ayuda: <p>In order to use the SageTomo system, you need to have an account. Click on Register if you want 
+                              to create a new account. </p>            
 
           }    
     }
@@ -101,12 +101,12 @@ class Inicio extends Component{
                                     validationSchema={Yup.object({
 
                                     usuario: Yup.string()
-                                        .max(20, 'El nombre de usuario no puede tener más de 20 caracteres.')
-                                        .required('Campo requerido.'),
+                                        .max(20, 'Username cannot be longer than 20 characters.')
+                                        .required('Required field.'),
 
                                         contrasenha: Yup.string()
-                                        .max(20, 'La contraseña no puede tener más de 20 caracteres.')
-                                        .required('Campo requerido.'),
+                                        .max(20, 'Password cannot be longer than 20 characters.')
+                                        .required('Required field.'),
 
                                     })}
 

@@ -16,9 +16,9 @@ class RecImgSubirVoltajes extends Component{
             error_estructura: false,
             error_seleccion: false,
             fichero: null,
-            mensaje_ayuda: <p>En esta ventana puedes subir un archivo en formato CSV que contenga un conjunto de voltajes. En cada línea, deberá contener los
-                            voltajes asociados a una malla, separados por punto y coma. En caso de que no tenga el formato incorrecto, se mostrará
-                            un error.</p>
+            mensaje_ayuda: <p>In this window you can upload a file in CSV format containing a set of voltages. In each line, it 
+                must include the voltages associated with a mesh, separated by semicolons. In case of incorrect formatting, an 
+                error will be displayed. </p>
 
         }
         this.handleChangeFichero = this.handleChangeFichero.bind(this);
@@ -65,7 +65,7 @@ class RecImgSubirVoltajes extends Component{
                         <div className = "container">
                             <div className="card caja">
                                 <div className="card-body" >
-                                    <h5 className="card-title">Upload file of voltages</h5>
+                                    <h5 className="card-title"><b>Upload file of voltages</b></h5>
                                     <div className = "row"  >
                                         <div className="col-md-12">
                                                 <div className="form-group row">
@@ -82,12 +82,12 @@ class RecImgSubirVoltajes extends Component{
         
                                                 {this.state.error_estructura === true &&
                                                     <div className="alert alert-danger" role="alert" id = "estructura_incorrecta">
-                                                        El formato o la estructura del fichero seleccionado es incorrecta.
+                                                        The format or structure of the selected file is incorrect.
                                                     </div>
                                                 }
                                                 {this.state.error_seleccion === true &&
                                                     <div className="alert alert-danger row" role="alert" id = "mensaje_informativo" >
-                                                        No has seleccionado ningún fichero.
+                                                        You have not selected a file.
                                                     </div>
                                                 }
         
