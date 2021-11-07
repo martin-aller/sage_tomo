@@ -19,9 +19,9 @@ class ObjetoEliminado extends Component{
     componentDidMount(){
         var mensaje_aux;
         if(this.props.location.state.tipo_objeto === "modelo"){
-            mensaje_aux = <p> El modelo eliminado ya no se encuentra en el sistema, por lo que no podrás utilizarlo de nuevo.</p>;
+            mensaje_aux = <p> The deleted model is no longer in the system, so you will not be able to use it again.</p>;
         }else{
-            mensaje_aux = <p> El dataset eliminado ya no se encuentra en el sistema, por lo que  no podrás utilizarlo de nuevo. </p>
+            mensaje_aux = <p> The deleted dataset is no longer in the system, so you will not be able to use it again. </p>
         }
         this.setState({mensaje_ayuda: mensaje_aux});
     }
@@ -59,24 +59,24 @@ class ObjetoEliminado extends Component{
                         <Cabecera con_cuenta = {true} mensaje_ayuda = {this.state.mensaje_ayuda} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                             {this.props.location.state.tipo_objeto === "modelo" ? (
                                 <div className="card bg-light mx-auto mb-3 caja max_width_50">
-                                    <div className="card-header">Modelo eliminado</div>
+                                    <div className="card-header">Model removed</div>
                                     <div className="card-body">
-                                        <h5 className="card-title margin_bottom_2">Se ha eliminado el modelo {this.props.location.state.id} con éxito.</h5>
+                                        <h5 className="card-title margin_bottom_2">Model {this.props.location.state.id} has been removed successfully</h5>
                                         <div className = "text-center">
                                             <span className="btn btn-dark mb-2 my-auto text-center width_15"  onClick ={() => this.acceder_modelos()}>
-                                                Volver a la lista de modelos
+                                                Back to the list of models
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                             ):(
                                 <div className="card bg-light mx-auto mb-3 caja max_width_50" >
-                                    <div className="card-header">Dataset eliminado</div>
+                                    <div className="card-header">Dataset removed</div>
                                     <div className="card-body">
-                                        <h5 className="card-title margin_bottom_2">Se ha eliminado el dataset {this.props.location.state.id} con éxito.</h5>
+                                        <h5 className="card-title margin_bottom_2">Dataset {this.props.location.state.id} has been removed successfully.</h5>
                                         <div className = "text-center">
                                             <span className="btn btn-dark mb-2 my-auto text-center width_15"  onClick ={() => this.acceder_datasets()}>
-                                                Volver a la lista de datasets
+                                                Back to the list of datasets
                                             </span>
                                         </div>
                                     </div>

@@ -22,12 +22,12 @@ class ModelosComparacionRealizada extends Component{
             indice_malla: null,
             ancho_columna: 3,
             error_modelo: false,
-            mensaje_ayuda: <div>En esta ventana se muestran los resultados obtenidos para la comparación de los modelos indicados. En la primera tabla
-            aparecen los resultados obtenidos mediante cada una de las métricas por cada uno de los modelos. En el caso de que en la ventana anterior
-            hubieses seleccionado el porcentaje de acierto como una de las métricas, también se mostrará una matriz de confusión. En la parte inferior
-            de la ventana se muestra la reconstrucción de la imagen de una malla seleccionada de forma aleatoria de entre las mallas del dataset mediante
-            el que se realizó la comparación. La primera imagen mostrada es la imagen real y las siguientes imágenes son las imágenes asociadas a las
-            predicciones realizadas por cada uno de los modelos.</div>
+            mensaje_ayuda: <div>This window shows the results obtained for the comparison of the indicated models. The first table 
+                shows the results obtained by each of the metrics for each of the models. In the case that in the previous window you 
+                had selected the percentage of success as one of the metrics, a confusion matrix will also be displayed. In the lower 
+                part of the window, you will be shown the reconstruction of the image of a mesh randomly selected from among the meshes
+                of the dataset by which the comparison was made.  The first image shown is the actual image and the following images 
+                are the images associated with the predictions made by each of the models.</div>
 
           }
 

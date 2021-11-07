@@ -23,12 +23,11 @@ class ModelosDefinirComparacion extends Component{
             postprocesado: true,
             error_dataset: false,
             lista_metricas : [],
-            mensaje_ayuda: <div>En esta ventana puedes definir ciertos parámetros para definir la comparación entre los modelos seleccionados en la
-            ventana anterior. Las comparaciones entre modelos
-            consisten en la realización de predicciones de los valores de impedancia para todos las mallas de un dataset y en la evaluación
-            de las predicciones realizadas mediante una o más métricas. Puedes elegir el dataset que se
-            utilizará para evaluar los modelos, así como las métricas mediante las que se evaluarán dichos modelos. Por otra parte, puedes
-            indicar si deseas aplicar postprocesado a las predicciones realizadas mediante los modelos.</div>
+            mensaje_ayuda: <div>In this window you can define certain parameters to define the comparison between the models selected 
+                in the previous window. The comparisons between models consist of making predictions of the conductivity values for 
+                all the meshes from a dataset and evaluating the predictions made by calculating one or more metrics. You can choose 
+                the dataset to be used to evaluate the models, as well as the metrics by which the models will be evaluated. Moreover, 
+                you can indicate whether you want to apply post-processing to the predictions made by the models.</div>
             
           }
         this.handleChangePostprocesado = this.handleChangePostprocesado.bind(this);

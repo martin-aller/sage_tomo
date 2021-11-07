@@ -13,9 +13,9 @@ class RecImgTipos extends Component{
         this.state = {
             aMallasDatasets: false,
             aPrediccionConductividades: false,
-            mensaje_ayuda: <p>Con el modelo seleccionado en la ventana anterior puedes realizar dos tipos de acciones. Por un lado, puedes reconstruir mallas
-            pertenecientes a datasets del sistema. Por otro, puedes realizar las predicciones de impedancia para un conjunto de voltajes que suministres
-            en formato CSV.</p>
+            mensaje_ayuda: <p>With the model selected in the previous window, you can perform two types of actions. On the one hand, 
+                you can reconstruct meshes belonging to datasets stored in the system. On the other hand, you can perform conductivity 
+                predictions for a set of voltages you supply in CSV format. </p>
 
           }
     }
@@ -55,7 +55,7 @@ class RecImgTipos extends Component{
                             <div className="row" >
                                 <div className="card col-md-5 caja width_14">
                                     <div className="card-body text-center">
-                                        <h5 className="card-title"> Analyze meshes from datasets </h5>                
+                                        <h5 className="card-title"> <b>Analyze meshes from datasets</b> </h5>                
                                         <p className="card-text">
                                             Reconstruct the images of meshes from the available datasets and compare the reconstructions with the real images.
                                         </p>
@@ -68,7 +68,7 @@ class RecImgTipos extends Component{
                                 </div>
                                 <div className="card col-md-5 caja width_14">
                                     <div className="card-body text-center">
-                                        <h5 className="card-title"> Predictions from a file of voltages </h5>
+                                        <h5 className="card-title"> <b>Predictions from a file of voltages</b> </h5>
                                         <p className="card-text">
                                             Upload a file of voltages to the system, predict the associated conductivity values and reconstruct the images.
                                         </p>

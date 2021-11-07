@@ -16,8 +16,8 @@ class Tareas extends Component{
         this.state = {
             aTareasModelos: false,
             aTareasDatasets: false,
-            mensaje_ayuda: <p>El sistema dispone de una cola de tareas. La cola de tareas contiene tareas de dos tipos: entrenamientos y generación/subida de
-                              datasets.</p>
+            mensaje_ayuda: <p>The system has a task queue. The task queue contains two types of tasks: model training 
+                            and dataset generation/upload.</p>
           }
     }
 
@@ -65,7 +65,7 @@ class Tareas extends Component{
                             <div className="row" >
                                 <div className="card col-md-5 caja width_14" >
                                     <div className="card-body text-center">
-                                        <h5 className="card-title"> Model training</h5>
+                                        <h5 className="card-title"> <b>Model training</b></h5>
                                         <p> In this section you will be shown all the model trainings that are in progress, as well as the trainings that have already finished.</p>
                                         <button className="btn btn-dark" onClick = {() => this.acceder_tareas_modelos()}>Access</button>
                                     </div>
@@ -73,7 +73,7 @@ class Tareas extends Component{
                                 <div className="col-md-2 width_14"></div>
                                 <div className="card col-md-5 caja width_14">
                                     <div className="card-body text-center">
-                                        <h5 className="card-title"> Upload and generation of datasets </h5>
+                                        <h5 className="card-title"> <b>Upload and generation of datasets </b></h5>
                                         <p> 
 In this section you will be able to visualize which datasets are being generated or uploaded to the system, as well as the datasets that have already been uploaded or generated.</p>
                                         <button className="btn btn-dark" onClick = {() => this.acceder_tareas_datasets()}>Access</button>

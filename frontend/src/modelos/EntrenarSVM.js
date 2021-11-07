@@ -19,7 +19,7 @@ class EntrenarSVM extends Component{
             aEntrenamientos: false,
             aDatasetsEntrenamiento: false,
             id_dataset: null,
-            mensaje_ayuda: <p>En esta ventana puedes definir las características de la máquina de soporte vectorial que entrenarás.</p>,
+            mensaje_ayuda: <p>In this window you can define the features for the support vector machine that you will train.</p>,
 
           }
     }
@@ -143,7 +143,7 @@ class EntrenarSVM extends Component{
                             <div className="card caja">
                                     <div className="card-header"> Train model </div>
                                     <div className="card-body" >
-                                        <h5 className="card-title">Support Vector Machine</h5>
+                                        <h5 className="card-title"><b>Support Vector Machine</b></h5>
                                         
                                     <Formik
                                         initialValues={{kernel : "rbf", grado : 3, gamma : "auto", coef0: 100, tol: 7, c : 1200000,

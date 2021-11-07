@@ -24,10 +24,10 @@ class TareasModelos extends Component{
             aModeloDescartado: false,
             showModalCancelar: false,
             showModalDescartar: false,
-            mensaje_ayuda: <div>En la tabla superior de esta ventana se muestra el listado de tus modelos que se encuentran en entrenamiento. Si no deseas continuar
-            con alguno de los entrenamientos, pulsa en Cancelar entrenamiento en la fila del modelo correspondiente. En la tabla inferior de la
-            ventana se muestra el listado de entrenamientos ya finalizados. Para cada uno de los entrenamientos finalizados, tienes la opción
-            de guardar el modelo entrenado o de descartarlo.</div>
+            mensaje_ayuda: <div>The upper table from this window shows the list of your models that are in training. If you do not 
+                wish to continue with any of the training processes, click on Cancel training in the row of the corresponding model. 
+                The list of completed training processes is displayed in the lower table of the window. For each of the completed training 
+                processes, you have the option of either to save the trained model or to discard it.</div>
           }
     }
 

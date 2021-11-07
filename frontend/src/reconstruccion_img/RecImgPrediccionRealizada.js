@@ -28,9 +28,9 @@ class RecImgPrediccionRealizada extends Component{
             mostrar_btn_anterior: false,
             mostrar_btn_siguiente: true,
             error_modelo: false,
-            mensaje_ayuda: <p>En esta ventana se muestran las predicciones realizadas para el conjunto de voltajes subido al sistema. Cada una de las filas
-                        de la tabla inferior contiene los valores de impedancia predichos para una determinada malla. Seleccionando una de estas mallas y
-                        pulsando en Reconstruir imagen, en la propia ventana se generará la imagen asociada a las predicciones realizadas.</p>
+            mensaje_ayuda: <p>This window displays the predictions made for the set of voltages uploaded to the system. Each of the rows
+            of the lower table contains the predicted conductivity values for a given mesh. By selecting one of these meshes and
+            clicking on Reconstruct image, the image associated with the predictions will be generated.</p>
 
           }
     }

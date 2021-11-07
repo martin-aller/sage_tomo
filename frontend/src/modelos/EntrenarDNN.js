@@ -20,7 +20,7 @@ class EntrenarDNN extends Component{
             aDatasetsEntrenamiento: false,
             numero_capas: 1,
             id_dataset: null,
-            mensaje_ayuda: <p>En esta ventana puedes definir las características de la red neuronal que entrenarás.</p>,
+            mensaje_ayuda: <p>In this window you can define the features for the neural network that you will train.</p>,
             
 
           }
@@ -149,7 +149,7 @@ class EntrenarDNN extends Component{
                             <div className="card caja">
                                     <div className="card-header"> Train model </div>
                                     <div className="card-body" >
-                                        <h5 className="card-title">Neural Network</h5>
+                                        <h5 className="card-title"><b>Neural Network</b></h5>
                                         
                                     <Formik
                                         initialValues={{n_capas_ocultas : 1, neuronas_por_capa : [10], f_activacion_interna: 'relu', f_activacion_externa: 'relu', f_error: 'mse', 

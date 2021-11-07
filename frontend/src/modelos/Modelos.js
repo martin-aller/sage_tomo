@@ -29,12 +29,12 @@ class Modelos extends Component{
             aTiposModelos: false,
             aDefinirComparacion: false,
             error_seleccion: false,
-            mensaje_ayuda: <div><p>En esta página se muestran los modelos que has entrenado tú o los modelos de tipo público entrenados por otros usuarios.
-            Puedes consultar la información detallada de cada modelo (dataset con el que se entrenó, resultados obtenidos mediante
-            la evaluación con métricas, etc) pulsando en Ver detalles.</p>
-            <p>Por otra parte, tienes la posibilidad de eliminar los modelos que hayas entrenado tú.</p>
-            <p>Pulsando en los recuadros del lado derecho de la tabla, puedes seleccionar hasta cuatro modelos para compararlos mediante
-            el empleo de métricas.</p></div>
+            mensaje_ayuda: <div><p>This page shows the models that you have trained yourself or the public models trained by other 
+                users. You can consult the detailed information of each model (dataset with which it was trained, results obtained 
+                by the evaluation with metrics, etc) by clicking on View details.</p>
+            <p>On the other hand, you have the possibility to delete the models that you have trained yourself.</p>
+            <p>By clicking on the boxes on the left side of the table, you can select up to four models to compare using different 
+                metrics.</p></div>
 
           }
           this.handleChangeTipoModelo = this.handleChangeTipoModelo.bind(this);
@@ -294,7 +294,7 @@ class Modelos extends Component{
         
                         <div className="container card caja">
                                     <div className="card-body ">
-                                        <h3 className="card-title titulo" > Models </h3>
+                                        <h3 className="card-title titulo" > <b>Models</b> </h3>
                                         <div className = "row" >
                                             <div className="col-md-12 width_14">
                                                 <form action="{% url 'tomo:filtrar_modelos' %}" method = "post" className = "margin_left_3">

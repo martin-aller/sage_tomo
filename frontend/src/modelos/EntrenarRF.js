@@ -20,7 +20,7 @@ class EntrenarRF extends Component{
             aEntrenamientos: false,
             aDatasetsEntrenamiento: false,
             id_dataset: null,
-            mensaje_ayuda: <p>En esta ventana puedes definir las características del random forest que entrenarás.</p>
+            mensaje_ayuda: <p>In this window you can define the features for the random forest that you will train.</p>
 
           }
     }
@@ -140,7 +140,7 @@ class EntrenarRF extends Component{
                             <div className="card caja">
                                     <div className="card-header"> Train model </div>
                                     <div className="card-body" >
-                                        <h5 className="card-title">Random forest</h5>
+                                        <h5 className="card-title"><b>Random forest</b></h5>
                                         
                                     <Formik
                                         initialValues={{n_estimadores : 10, profundidad_maxima : 100000, min_split: 0, min_leaf: 0,

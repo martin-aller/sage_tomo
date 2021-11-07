@@ -26,11 +26,12 @@ class RecImgReconstruida extends Component{
             enfoque_corte : React.createRef(),
             url_cortes: null,
             error_modelo: false,
-            mensaje_ayuda: <div><p>En esta ventana se muestran dos imágenes. La imagen de la izquierda es la imagen real asociada a la malla seleccionada en la ventana
-                    anterior. La imagen de la derecha es la imagen reconstruida mediante el modelo elegido.</p>
-                    <p>Debajo de ambas imágenes, se encuentra la herramienta para realizar cortes en las mallas. Mediante el selector que se te proporciona,
-                    podrás elegir el valor del eje Y de la malla en el cual deseas realizar el corte. Al pulsar en Analizar sección, se generará una gráfica 
-                    que mostrará los valores de conductividad de la malla para el valor del eje Y seleccionado.</p></div>
+            mensaje_ayuda: <div><p>Two images are displayed in this window. The image on the left is the actual image associated 
+                with the mesh selected in the previous window. The image on the right is the reconstructed image using the selected 
+                model.</p>
+                    <p>Below both images, you will find the tool to make cuts in the meshes. Using the selector provided, you can choose 
+                        the value of the Y-axis of the mesh on which you want to make the cut. When you click on Analyze section, a graph 
+                        will be generated and this will show the conductivity values of the mesh for the selected Y-axis value.</p></div>
           }
 
           this.handleChangeYCorte = this.handleChangeYCorte.bind(this);

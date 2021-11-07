@@ -19,9 +19,9 @@ class ModeloDetalles extends Component{
             aDatasetDetalles: false,
             show_matriz: false,
             cargando: true,
-            mensaje_ayuda: <div>En esta ventana se muestran todos los detalles del modelo seleccionado. El dataset que aparece entre los atributos del modelo
-            es el dataset empleado para entrenar al modelo. Además, los valores de las métricas que se muestran son los calculados mediante el
-            conjunto de test del dataset de entrenamiento.</div>
+            mensaje_ayuda: <div>This window displays all the details of the selected model. The dataset that appears among the 
+                model attributes is the dataset used to train the model. In addition, the values of the metrics displayed are the 
+                ones calculated by the test set of the mentioned dataset.</div>
           }
 
     }
@@ -116,7 +116,7 @@ class ModeloDetalles extends Component{
                                 <div className = "row">
                                     <div className="card col-md-6 caja" >
                                         <div className="card-body ">
-                                            <h5 className="card-title">General information </h5>
+                                            <h5 className="card-title"><b>General information</b> </h5>
                                              <table className = "table table-striped" >
                                                  <tbody>
                                                      <tr>
@@ -173,7 +173,7 @@ class ModeloDetalles extends Component{
                                     {this.state.modelo_generico.tipo === "DNN" &&
                                         <div className="card col-md-6 caja" >
                                             <div className="card-body ">
-                                              <h5 className="card-title">Neural Network details </h5>
+                                              <h5 className="card-title"><b>Neural Network details</b> </h5>
                                                   <table className = "table table-striped" >
                                                         <tbody>
                                                           <tr>
@@ -246,7 +246,7 @@ class ModeloDetalles extends Component{
                                     {this.state.modelo_generico.tipo === "RF" &&
                                         <div className="card col-md-6 caja" >
                                         <div className="card-body ">
-                                            <h5 className="card-title">Random Forest details</h5>
+                                            <h5 className="card-title"><b>Random Forest details</b></h5>
                                                 <table className = "table table-striped" >
                                                     <tbody>
                                                         <tr>
@@ -300,7 +300,7 @@ class ModeloDetalles extends Component{
                                     {this.state.modelo_generico.tipo === "SVM" &&
                                         <div className="card col-md-6 caja" >
                                         <div className="card-body ">
-                                            <h5 className="card-title">Support Vector Machine details </h5>
+                                            <h5 className="card-title"><b>Support Vector Machine details</b> </h5>
                                                 <table class = "table table-striped" >
                                                     <tbody>
                                                         <tr>

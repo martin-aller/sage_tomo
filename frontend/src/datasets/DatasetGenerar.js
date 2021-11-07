@@ -17,11 +17,14 @@ class DatasetGenerar extends Component{
         this.state = {
             //aImagenes: false,
             aTareas: false,
-            mensaje_ayuda: <div>En esta ventana puedes definir las características del dataset que deseas generar, entre las que se encuentran el número de mallas
-            con uno, dos y tres artefactos y el radio mínimo y máximo de los artefactos. La posición y la forma de los artefactos se define
-            de forma pseudoaleatoria. El tamaño de los artefactos también se define de forma pseudoaleatoria, estableciendo para cada artefacto un
-            tamaño de radio perteneciente al intervalo que indiques. Por ejemplo, si seleccionas 4 como radio mínimo y 10 como radio máximo, los
-            artefactos contenidos en todas las mallas tendrán radios pertenecientes al intervalo [4,10].</div>
+            mensaje_ayuda: <div>In this window you can define the features of the dataset you want to generate, 
+                among which are the number of meshes with one, two and three artifacts and the minimum 
+                and maximum radius of the artifacts.   The position and shape of the artifacts are defined pseudo-randomly. 
+                The size of the artifacts is also defined pseudo-randomly, by setting for each artifact a radius size that 
+                belongs to the interval you specify. For example, if you select 4 as the minimum radius and 10 as the maximum radius, 
+                the artifacts contained in all meshes will have radii belonging to the interval [4,10].
+
+            </div>
           }
 
     }
@@ -85,48 +88,48 @@ class DatasetGenerar extends Component{
                         <div className="container">
                             <div className="card caja">
                                 <div className="card-body" >
-                                    <h5 className="card-title">Generate dataset</h5>
+                                    <h5 className="card-title"><b>Generate dataset</b></h5>
         
         
                                     <Formik
                                         initialValues={{ n_mallas_1: 50, n_mallas_2: 30, n_mallas_3: 20, r_min: 4, r_max: 10, visible : 'True', semilla: 12345678}}
                                         validationSchema={Yup.object({
                                         n_mallas_1: Yup.number()
-                                            .positive("Debe ser un número positivo.")
-                                            .integer("Debe ser un número entero.")
-                                            .min(12, 'El mínimo número de mallas de un artefacto es 12.')
-                                            .max(10000, 'No se pueden generar mas de 10000 mallas de un artefacto.')
-                                            .required('Campo requerido.'),
+                                            .positive("It must be a positive number.")
+                                            .integer("It must be an integer.")
+                                            .min(12, 'The minimum number of meshes with an artifact is 12.')
+                                            .max(10000, 'No more than 10000 meshes with one artifact can be generated.')
+                                            .required('Required field.'),
                                         n_mallas_2: Yup.number()
-                                            .positive("Debe ser un número positivo.")
-                                            .integer("Debe ser un número entero.")
-                                            .min(12, 'El mínimo número de mallas de dos artefactos es 12.')
-                                            .max(10000, 'No se pueden generar mas de 10000 mallas de dos artefactos.')
-                                            .required('Campo requerido.'),
+                                            .positive("It must be a positive number.")
+                                            .integer("It must be an integer.")
+                                            .min(12, 'The minimum number of meshes with two artifacts is 12.')
+                                            .max(10000, 'No more than 10000 meshes with two artifacts can be generated.')
+                                            .required('Required field.'),
                                         n_mallas_3: Yup.number()
-                                            .positive("Debe ser un número positivo.")
-                                            .integer("Debe ser un número entero.")
-                                            .min(12, 'El mínimo número de mallas de tres artefactos es 12.')
-                                            .max(10000, 'No se pueden generar mas de 10000 mallas de tres artefactos.')
-                                            .required('Campo requerido.'),
+                                            .positive("It must be a positive number.")
+                                            .integer("It must be an integer.")
+                                            .min(12, 'The minimum number of meshes with three artifacts is 12.')
+                                            .max(10000, 'No more than 10000 meshes with three artifacts can be generated.')
+                                            .required('Required field.'),
                                         r_min: Yup.number()
-                                            .positive("Debe ser un número positivo.")
-                                            .integer("Debe ser un número entero.")
-                                            .min(1, 'El radio mínimo debe pertenecer al intervalo [1,9].')
-                                            .max(9, 'El radio mínimo debe pertenecer al intervalo [1,9].')
-                                            .required('Campo requerido.'),
+                                            .positive("It must be a positive number.")
+                                            .integer("It must be an integer.")
+                                            .min(1, 'The minimum radius must belong to the interval [1,9].')
+                                            .max(9, 'The minimum radius must belong to the interval [1,9].')
+                                            .required('Required field.'),
                                         r_max: Yup.number()
-                                            .positive("Debe ser un número positivo.")
-                                            .integer("Debe ser un número entero.")
-                                            .min(2, 'El radio máximo debe pertenecer al intervalo [2,10].')
-                                            .max(10, 'El radio máximo debe pertenecer al intervalo [2,10].')
-                                            .required('Campo requerido.'),
+                                            .positive("It must be a positive number.")
+                                            .integer("It must be an integer.")
+                                            .min(2, 'The maximus radius must belong to the interval [2,10].')
+                                            .max(10, 'The maximus radius must belong to the interval [2,10].')
+                                            .required('Required field.'),
                                         semilla: Yup.number()
-                                            .positive("Debe ser un número positivo.")
-                                            .integer("Debe ser un número entero.")
-                                            .min(1, 'La semilla debe pertenecer al intervalo [1,99999999].')
-                                            .max(99999999, 'La semilla debe pertenecer al intervalo [1,99999999].')
-                                            .required('Campo requerido.')
+                                            .positive("It must be a positive number.")
+                                            .integer("It must be an integer.")
+                                            .min(1, 'The seed must belong to the interval [1,99999999].')
+                                            .max(99999999, 'The seed must belong to the interval [1,99999999].')
+                                            .required('Required field.')
                                         })}
                                         onSubmit={(values, { setSubmitting }) => {
                                         setTimeout(() => {

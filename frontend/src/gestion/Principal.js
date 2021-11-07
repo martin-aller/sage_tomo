@@ -15,9 +15,8 @@ class  Principal extends Component{
             aModelos: false,
             aDatasets: false,
             aTareas: false,
-            mensaje_ayuda: <p>Desde la ventana principal puedes acceder a los cuatro grandes bloques de los que dispone la aplicación.
-                           Por otro lado, en la esquina superior izquierda de ésta y de las demás ventanas, podrás acceder a la información
-                           sobre tu cuenta.</p>,
+            mensaje_ayuda: <p>From the main window, you can access every one of the four main blocks of the application. On the 
+                other hand, you can access your account information in the upper right corner of this and the other windows. </p>,
           }
 
     }
@@ -90,7 +89,7 @@ class  Principal extends Component{
                                 <div className ="card col-md-3 caja padding_top_1">
                                 <img  className  = "card-img-top rounded" src={process.env.PUBLIC_URL + '/imagenes/malla_prin.png'} width = "90%" height = "55%" alt = "rec_img"/>
                                 <div className ="card-body d-flex flex-column text-center">
-                                    <h5 className ="card-title">Reconstruction of images</h5>
+                                    <h5 className ="card-title"> <b>Reconstruction of images</b></h5>
                                     <p className ="card-text">Reconstruct and analyze images of bodies.</p>
                                     <span className  ="text-center  mt-auto"><button className ="btn btn-dark" onClick = {() => this.acceder_rec_img()}>Access</button></span>
                                 </div>
@@ -101,7 +100,7 @@ class  Principal extends Component{
                                 <img  className  = "card-img-top rounded" src={process.env.PUBLIC_URL + '/imagenes/neuronas.jpg'} width = "90%" height = "55%" alt = "modelos"/>
 
                                 <div className ="card-body d-flex flex-column text-center">
-                                    <h5 className ="card-title">Models</h5>
+                                    <h5 className ="card-title"><b>Models</b></h5>
                                     <p className ="card-text">Analyze and compare your models and the public models.</p>
                                     <span className  ="  mt-auto"><button  className ="btn btn-dark" onClick = {() => this.acceder_modelos()}>Access</button></span>
                                 </div>
@@ -112,7 +111,7 @@ class  Principal extends Component{
                                 <img  className  = "card-img-top rounded back_black" src={process.env.PUBLIC_URL + '/imagenes/dataset.png'} width = "90%" height = "55%" alt = "datasets"/>
 
                                 <div className ="card-body d-flex flex-column text-center">
-                                    <h5 className ="card-title">Datasets</h5>
+                                    <h5 className ="card-title"><b>Datasets</b></h5>
                                     <p className ="card-text">Take a look at the models stored in the system.</p>
                                     <span className  =" mt-auto"><button className ="btn btn-dark" onClick = {() => this.acceder_datasets()}>Access</button></span>
                                 </div>
@@ -124,7 +123,7 @@ class  Principal extends Component{
 
 
                                 <div className ="card-body d-flex flex-column text-center">
-                                    <h5 className ="card-title">Tasks</h5>
+                                    <h5 className ="card-title"><b>Tasks</b></h5>
                                     <p className ="card-text">Check the state of your tasks.</p>
                                     <span className  ="text-center  mt-auto"><button className ="btn btn-dark" onClick = {() => this.acceder_tareas()}>Access</button></span>
                                 </div>

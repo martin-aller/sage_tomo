@@ -14,8 +14,8 @@ class Registro extends Component{
         this.state = {
             nickname_email_usado: false,
             exito_registro: false,
-            mensaje_ayuda: <p>Cubre todos los campos para crearte una cuenta en TomoSage. Podrás editar todos los campos en el futuro,
-                           con excepción del nombre de usuario.</p>
+            mensaje_ayuda: <p>You must fill all the fields from the form to create a SageTomo account. You will be able to edit 
+                all fields in the future, except the username.</p>
 
           }
     
@@ -83,23 +83,23 @@ class Registro extends Component{
                         initialValues={{ nombre_usuario: '', nombre: '', apellidos: '', correo_electronico: '', contrasenha1: '', contrasenha2: ''}}
                         validationSchema={Yup.object({
                         nombre_usuario: Yup.string()
-                            .max(20, 'El nombre de usuario no puede tener más de 20 caracteres.')
-                            .required('Campo requerido.'),
+                            .max(20, 'Username cannot be longer than 20 characters.')
+                            .required('Required field.'),
                         nombre: Yup.string()
-                            .max(100, 'El nombre no puede tener más de 100 caracteres.')
-                            .required('Campo requerido.'),
+                            .max(100, 'First name cannot be longer than 100 characters.')
+                            .required('Required field.'),
                         apellidos: Yup.string()
-                            .max(100, 'El apellido no puede tener más de 100 caracteres.')
-                            .required('Campo requerido.'),
+                            .max(100, 'Last name cannot be longer than 100 characters.')
+                            .required('Required field.'),
                         correo_electronico: Yup.string()
-                            .email('Introduce un correo electrónico válido.')
-                            .required('Campo requerido.'),
+                            .email('Enter a valid email adress.')
+                            .required('Required field.'),
                         contrasenha1: Yup.string()
-                            .max(20, 'La contraseña no puede tener más de 20 caracteres.')
-                            .required('Campo requerido.'),
+                            .max(20, 'Password cannot be longer than 20 characters.')
+                            .required('Required field.'),
                         contrasenha2: Yup.string()
-                            .max(20, 'La contraseña no puede tener más de 20 caracteres.')
-                            .required('Campo requerido.')
+                            .max(20, 'Password cannot be longer than 20 characters.')
+                            .required('Required field.')
                             .oneOf([Yup.ref('contrasenha1'), null], 'Las contraseñas no coinciden'),
                         })}
                         onSubmit={(values, { setSubmitting }) => {

@@ -28,7 +28,7 @@ class ModalAyuda extends Component{
                 </div>
             </Modal.Body>
             <Modal.Footer className = "bg-dark">
-                <Button className = "width_6" variant = "secondary" onClick = {this.props.cerrar}>Cerrar</Button>
+                <Button className = "width_6" variant = "secondary" onClick = {this.props.cerrar}>Close</Button>
             </Modal.Footer>
 
         </Modal>

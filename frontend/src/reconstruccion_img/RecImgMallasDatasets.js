@@ -28,10 +28,10 @@ class RecImgMallasDatasets extends Component{
             indice_inicial: 0,
             mostrar_btn_anterior: false,
             mostrar_btn_siguiente: true,
-            mensaje_ayuda: <p>En esta ventana podrás reconstruir imágenes asociadas a las mallas pertenecientes a los datasets. Para ello, en la tabla superior
-            puedes seleccionar el dataset que deseas utilizar. Por defecto, se encuentra seleccionado el dataset de menor identificador al que
-            puedas acceder. En la tabla inferior, puedes elegir la malla del dataset seleccionado que deseas 
-            examinar. En la tabla inferior, puedes filtrar las mallas en función del número de artefactos que contengan.</p>
+            mensaje_ayuda: <p>In this window, you can reconstruct images associated with the meshes belonging to the datasets stored in the system. 
+                To do so, in the upper table, you must select the dataset you want to use. By default, the dataset with the lowest identifier 
+                is selected. In the table below, you can select the mesh from the chosen dataset you want to examine. You can 
+                filter the meshes according to the number of artifacts they contain.</p>
 
           }
           this.handleChangePostprocesado = this.handleChangePostprocesado.bind(this);
@@ -233,7 +233,7 @@ class RecImgMallasDatasets extends Component{
                         <Cabecera con_cuenta = {true} mensaje_ayuda = {this.state.mensaje_ayuda} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                         <BotonAtras/>
         
-                        <h2 className = "text-center" > Reconstruction of images </h2>
+                        <h2 className = "text-center" > <b>Reconstruction of images</b> </h2>
         
         
                             <div className="container" >

@@ -28,7 +28,7 @@ class SinModelo extends Component{
             <div>
                 <Cabecera/>
                 <div className="card caja mx-auto mb-3 max_width_50" >
-                    <div className="card-header">Modelo eliminado</div>
+                    <div className="card-header">Model removed</div>
                     <div className="card-body">
                         <h5 className="card-title">{this.props.location.state.mensaje}</h5>
                         <input type="button" className="btn btn-dark mb-2 float-right" value = "Volver al menú principal" onClick = {() => this.setState({aInicio:true})}/> 
