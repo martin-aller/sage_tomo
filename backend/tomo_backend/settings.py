@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import pathlib
+import json
+
 from django.contrib.auth.signals import user_logged_in
 
 def jwt_response_payload_handler(token, user=None, request=None):
@@ -25,6 +28,17 @@ JWT_AUTH = {
 }
 
 
+def read_password(type):
+    generic_path = pathlib.Path(__file__).parent.parent
+    
+    full_path = os.path.join(generic_path, "passwords.json")
+    with open(full_path) as f:
+        data = json.load(f)
+    
+    secret_key = data[type]
+    return secret_key
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -33,10 +47,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '32#r31+_4(xs3*_pckn_u2dvf7gdx^kamoqds=!z=)czs*509w'
+SECRET_KEY = read_password("secret_key")
+
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 
@@ -66,7 +82,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-    'drf_multiple_model', #Enviar múltiples modelos serializados
+    'drf_multiple_model', #Send multiple serialized models
     'corsheaders',
 
 ]
@@ -113,18 +129,12 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'tomogra_bd',
         'USER': 'tomografia_user',
-        'PASSWORD': 'abcd',
+        'PASSWORD': read_password("bd"),
         'HOST': 'localhost',
         'PORT': '',
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
 
 # Password validation
@@ -165,7 +175,6 @@ USE_TZ = True
 
 
 
-
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES' : ['rest_framework.permissions.AllowAny',], #IsAuthenticated #AllowAny
     'DEFAULT_AUTHENTICATION_CLASSES' : ['rest_framework.authentication.SessionAuthentication', 'rest_framework.authentication.TokenAuthentication',],
@@ -186,7 +195,7 @@ MEDIA_ROOT = os.path.join(REPOSITORY_ROOT, 'backend/media/')
 
 URL_PUERTO = '127.0.0.1:8000'
 
-#REGISTRO
+
 #ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 #CELERY

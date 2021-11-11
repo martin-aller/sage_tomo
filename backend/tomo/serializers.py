@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Dataset, Modelo, Modelo_red_neuronal, Modelo_random_forest, Modelo_maquina_soporte_vectorial, Metrica, Matriz_confusion
-from .models import Malla
+from .models import Dataset, Model, Neural_network_model, Random_forest_model, SVM_model, Metric, Confusion_matrix
+from .models import Mesh
 import tomo.views
 
 
-#Serializadores de las clases definidas en models.py
+#Serializers for the classes defined in models.py
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,98 +14,86 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class DatasetSerializer(serializers.ModelSerializer):
-    creador = UserSerializer(
+    creator = UserSerializer(
         many=False,
         read_only=True,
     )
     class Meta:
         model = Dataset
-        fields = ('id', 'fecha_creacion', 'r_min', 'r_max', 'semilla', 'creador', 'visible', 'estado',
-        'n_mallas', 'n_mallas_1', 'n_mallas_2', 'n_mallas_3')
+        fields = ('id', 'creation_date', 'min_radius', 'max_radius', 'seed', 'creator', 'visible', 'state',
+        'n_meshes', 'n_meshes_1', 'n_meshes_2', 'n_meshes_3')
 
 
 
-class MetricaSerializer(serializers.ModelSerializer):
+class MetricSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Metrica
-        fields = ('nombre_metrica', 'valor_metrica')
+        model = Metric
+        fields = ('name', 'value')
 
 
-class Matriz_confusionSerializer(serializers.ModelSerializer):
+class Matrix_confusionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Matriz_confusion
-        fields = ('verdaderos_negativos', 'falsos_positivos', 'falsos_negativos', 'verdaderos_positivos')
+        model = Confusion_matrix
+        fields = ('true_negatives', 'false_positives', 'false_negatives', 'true_positives')
 
 
 
-class ModeloSerializer(serializers.ModelSerializer):
-    creador = UserSerializer(
+class ModelSerializer(serializers.ModelSerializer):
+    creator = UserSerializer(
         many=False,
         read_only=True,
     )
 
-    metricas = MetricaSerializer(
+    metrics = MetricSerializer(
         many=True,
         read_only=True,
     )
 
-    matriz_confusion = Matriz_confusionSerializer(
+    confusion_matrix = Matrix_confusionSerializer(
         many=False,
         read_only=True,
     )
 
     class Meta:
-        model = Modelo
-        fields = ('id','tipo','comentarios_adicionales','creador','visible','estado','dataset','umbral_postprocesado','fecha_hora_inicio',
-        'fecha_hora_fin', 'tiempo_entrenamiento', 'metricas', 'matriz_confusion')
+        model = Model
+        fields = ('id','type','comentaries','creator','visible','state','dataset','postprocessing_threshold','datetime_start',
+        'datetime_end', 'training_time', 'metrics', 'confusion_matrix')
 
-#A los modelos específicos podría quitarles el field 'id_modelo'
+
 class DNNSerializer(serializers.ModelSerializer):
-    # id_modelo = ModeloSerializer(
-    #     many=False,
-    #     read_only=True,
-    # )
     class Meta:
-        model = Modelo_red_neuronal
-        fields = ('id_modelo','capas_ocultas','neuronas_por_capa','funcion_activacion_interna','funcion_activacion_salida','funcion_error',
-        'epocas','lotes','learning_rate','momentum')
+        model = Neural_network_model
+        fields = ('id_model','hidden_layers','neurons_per_layer','inside_activation_function','outside_activation_function','error_function',
+        'epochs','batch_size','learning_rate','momentum')
 
 
 
 class RFSerializer(serializers.ModelSerializer):
-    # id_modelo = ModeloSerializer(
-    #     many=False,
-    #     read_only=True,
-    # )
     class Meta:
-        model = Modelo_random_forest
-        fields = ('id_modelo',  'n_estimadores', 'profundidad_max', 'min_samples_split', 'min_samples_leaf', 'binario_modelo')
+        model = Random_forest_model
+        fields = ('id_model',  'n_estimators', 'max_depth', 'min_samples_split', 'min_samples_leaf', 'model_binary')
 
 
 class SVMSerializer(serializers.ModelSerializer):
-    # id_modelo = ModeloSerializer(
-    #     many=False,
-    #     read_only=True,
-    # )
     class Meta:
-        model = Modelo_maquina_soporte_vectorial
-        fields = ('id_modelo', 'kernel','grado','gamma','coef0','tol','c','epsilon')
+        model = SVM_model
+        fields = ('id_model', 'kernel','degree','gamma','coef0','tol','c','epsilon')
 
 
 
-class MallaVoltajesSerializer(serializers.ModelSerializer):
-    voltajes = serializers.ListField(child=serializers.FloatField())
+class MeshVoltagesSerializer(serializers.ModelSerializer):
+    voltages = serializers.ListField(child=serializers.FloatField())
 
     class Meta:
-        model = Malla
-        fields = ('id', 'indice', 'numero_artefactos', 'voltajes')
+        model = Mesh
+        fields = ('id', 'index', 'number_artifacts', 'voltages')
 
 
-class MallaConductividadesSerializer(serializers.ModelSerializer):
-    conductividades = serializers.ListField(child=serializers.FloatField())
+class MeshConductivitiesSerializer(serializers.ModelSerializer):
+    conductivities = serializers.ListField(child=serializers.FloatField())
 
     class Meta:
-        model = Malla
-        fields = ('id', 'indice', 'numero_artefactos', 'conductividades')
+        model = Mesh
+        fields = ('id', 'index', 'number_artifacts', 'conductivities')
 
 

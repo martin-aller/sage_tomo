@@ -3,18 +3,15 @@ import ReactDOM from 'react-dom';
 //import 'bootstrap/dist/css/bootstrap.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 //import './index.css';
-import './estilo.css';
-import App from './App';
+import './style.css';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
-import Rutas from './Rutas';
+import Routes from './Routes';
 
 ReactDOM.render(
   
     <BrowserRouter>
-      {/* <App /> */}
-      <Rutas/>
-      
+      <Routes/>
     </BrowserRouter>,
 
   document.getElementById('root')

@@ -1,47 +1,47 @@
 from django.urls import path
 
-from .views import ListDataset, ObtieneDataset, ListModelo, obtiene_modelo, ListVoltaje, ListConductividad,reconstruir_img, genera_corte
-from .views import entrenar_DNN, entrenar_RF, entrenar_SVM, ListModeloEntrenando, ListModeloPendiente, ListDatasetGenerando, ListDatasetPendiente
-from .views import generar_dataset, preparar_dataset, cancelar_entrenamiento, cancelar_tarea_dataset, comparar_modelos
-from .views import reconstruir_img_multiple, reconstruir_img_simple, SubirDataset, PredecirConductividades
+from .views import ListDatasets, GetDataset, ListModels, get_model, ListVoltages, ListConductivities,reconstruct_img, generate_cut
+from .views import train_DNN, train_RF, train_SVM, ListTrainingModels, ListPendingModels, ListGeneratingDatasets, ListPendingDatasets
+from .views import generate_dataset, prepare_dataset, cancel_training, cancel_dataset_task, compare_models
+from .views import reconstruct_img_multiple, reconstruct_img_simple, UploadDataset, PredictConductivities
 
 
 
-#Lista de los endpoints de la API REST.
+#List of the REST API endpoints.
 
 
 app_name = 'tomo'
 urlpatterns = [
     #Datasets
-    path('datasets/<int:pk>/', ObtieneDataset.as_view()), #Si permito patch, habría inconsistencias.
-    path('datasets/', ListDataset.as_view()),
-    path('datasets_generando/', ListDatasetGenerando.as_view()),
-    path('datasets_pendientes/', ListDatasetPendiente.as_view()),
-    path('cancelar_tarea_dataset/<int:pk>/', cancelar_tarea_dataset),
-    path('generar_dataset/', generar_dataset),
-    path('preparar_descarga_dataset/<int:pk>/', preparar_dataset),
-    path('subir_dataset/', SubirDataset.as_view()),
+    path('datasets/<int:pk>/', GetDataset.as_view()), 
+    path('datasets/', ListDatasets.as_view()),
+    path('datasets_generating/', ListGeneratingDatasets.as_view()),
+    path('datasets_pending/', ListPendingDatasets.as_view()),
+    path('cancel_dataset_task/<int:pk>/', cancel_dataset_task),
+    path('generate_dataset/', generate_dataset),
+    path('prepare_dataset_download/<int:pk>/', prepare_dataset),
+    path('upload_dataset/', UploadDataset.as_view()),
 
 
-    #Modelos
-    path('modelos/<int:pk>/', obtiene_modelo),
-    path('modelos/', ListModelo.as_view()),
-    path('modelos_entrenando/', ListModeloEntrenando.as_view()),
-    path('modelos_pendientes/', ListModeloPendiente.as_view()),
-    path('cancelar_entrenamiento/<int:pk>/', cancelar_entrenamiento),
-    path('entrenar_dnn/', entrenar_DNN),
-    path('entrenar_rf/', entrenar_RF),
-    path('entrenar_svm/', entrenar_SVM),
-    path('comparar_modelos/', comparar_modelos),
+    #Models
+    path('models/<int:pk>/', get_model),
+    path('models/', ListModels.as_view()),
+    path('models_training/', ListTrainingModels.as_view()),
+    path('models_pending/', ListPendingModels.as_view()),
+    path('cancel_training/<int:pk>/', cancel_training),
+    path('train_dnn/', train_DNN),
+    path('train_rf/', train_RF),
+    path('train_svm/', train_SVM),
+    path('compare_models/', compare_models),
 
 
-    #Reconstrucción de imágenes
-    path('voltajes/', ListVoltaje.as_view()),
-    path('conductividades/', ListConductividad.as_view()),
-    path('reconstruir_img/', reconstruir_img),
-    path('reconstruir_img_multiple/', reconstruir_img_multiple),
-    path('reconstruir_img_simple/', reconstruir_img_simple),
-    path('genera_corte/', genera_corte),
-    path('predecir_conductividades/', PredecirConductividades.as_view()),
+    #Image reconstruction
+    path('voltages/', ListVoltages.as_view()),
+    path('conductivities/', ListConductivities.as_view()),
+    path('reconstruct_img/', reconstruct_img),
+    path('reconstruct_img_multiple/', reconstruct_img_multiple),
+    path('reconstruct_img_simple/', reconstruct_img_simple),
+    path('generate_cut/', generate_cut),
+    path('predict_conductivities/', PredictConductivities.as_view()),
 
 ]

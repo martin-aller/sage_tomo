@@ -5,11 +5,11 @@ from django.db.models import Q
 from django.core.files import File
 from django.http import FileResponse
 
-from .models import Dataset, Modelo, Modelo_red_neuronal, Modelo_random_forest, Modelo_maquina_soporte_vectorial, Metrica
-from .models import Malla
-from .serializers import DatasetSerializer, ModeloSerializer, DNNSerializer, RFSerializer, SVMSerializer, MallaVoltajesSerializer, MallaConductividadesSerializer
-from .serializers import Matriz_confusionSerializer
-from .permissions import EsCreadorOSoloLectura, es_creador, es_creador_o_publico
+from .models import Dataset, Model, Neural_network_model, Random_forest_model, SVM_model, Metric
+from .models import Mesh
+from .serializers import DatasetSerializer, ModelSerializer, DNNSerializer, RFSerializer, SVMSerializer, MeshVoltagesSerializer, MeshConductivitiesSerializer
+from .serializers import Matrix_confusionSerializer
+from .permissions import IsCreatorOrOnlyRead, is_creator, is_creator_or_public
 
 #from django.http import HttpResponse, JsonResponse
 from rest_framework import status
@@ -21,7 +21,7 @@ from rest_framework.parsers import FileUploadParser, MultiPartParser
 from rest_framework.views import APIView
 from rest_framework.exceptions import ParseError
 
-from modulo_EIT.FachadaEIT import FachadaEIT as fi
+from EIT_module.EITFacade import EITFacade as fi
 
 
 import os
@@ -32,74 +32,76 @@ import random
 
 import logging
 
-#En este fichero se definen los servicios ofrecidos por la API REST
+#In this file we define the services offered by the REST API.
 
 
 
 ############################Datasets############################
-class ListDataset(generics.ListAPIView):
-    """Devuelve la lista de datasets disponibles para el usuario."""
+class ListDatasets(generics.ListAPIView):
+    """It returns the list of datasets available to the user."""
     serializer_class = DatasetSerializer
 
     def get_queryset(self):
-        lista_datasets = Dataset.objects.filter(Q(visible = True, estado = 'finalizado') | Q(creador = self.request.user), estado = 'finalizado')
-        return lista_datasets
+        datasets_list = Dataset.objects.filter(Q(visible = True, state = 'finished') | Q(creator = self.request.user), state = 'finished')
+        return datasets_list
 
-class ObtieneDataset(generics.RetrieveUpdateDestroyAPIView):
-    """Devuelve un dataset particular."""
+
+
+class GetDataset(generics.RetrieveUpdateDestroyAPIView):
+    """It returns a specific dataset."""
     queryset = Dataset.objects.all()
-    permission_classes = (EsCreadorOSoloLectura, )
+    permission_classes = (IsCreatorOrOnlyRead, )
     serializer_class = DatasetSerializer
-
 
     def destroy(self, request, *args, **kwargs):
         dat = self.get_object()
-        modelos = dat.modelo_set.all() #Modelos entrenados con el dataset
+        models = dat.model_set.all() #Models entrenados con el dataset
 
-        if not modelos:
+        if not models:
             dat.delete()
             return Response(status = status.HTTP_204_NO_CONTENT)
         else:
             return Response(status = status.HTTP_403_FORBIDDEN)
 
 
-class ListDatasetGenerando(generics.ListAPIView):
-    """Devuelve la lista de datasets en proceso de ser subidos o generados."""
+
+class ListGeneratingDatasets(generics.ListAPIView):
+    """It returns the list of datasets in the process of being uploaded or generated."""
     serializer_class = DatasetSerializer
 
     def get_queryset(self):
-        lista_datasets = Dataset.objects.filter(~Q(estado = "pendiente"), ~Q(estado = "finalizado"), creador = self.request.user)
-        return lista_datasets
+        datasets_list = Dataset.objects.filter(~Q(state = "pending"), ~Q(state = "finished"), creator = self.request.user)
+        return datasets_list
 
 
 
-class ListDatasetPendiente(generics.ListAPIView):
-    """Devuelve la lista de datasets que ya han sido subidos/generados, pero que aún no
-    han sido guardados por el usuario."""
+
+class ListPendingDatasets(generics.ListAPIView):
+    """It returns the list of datasets that have already been uploaded/generated, but have not yet been saved by the user."""
     serializer_class = DatasetSerializer
 
     def get_queryset(self):
-        lista_datasets = Dataset.objects.filter(estado = "pendiente", creador = self.request.user)
-        return lista_datasets
+        datasets_list = Dataset.objects.filter(state = "pending", creator = self.request.user)
+        return datasets_list
 
 
 
 
 
 @api_view(['POST'])
-def generar_dataset(request):
-    """Genera un nuevo dataset."""
+def generate_dataset(request):
+    """It generates a new datasets with the parameters specified by the user."""
     if request.method == 'POST':
         try:
             d = request.data
-            dataset = Dataset(fecha_creacion = datetime.now(), r_min = d['r_min'], r_max = d['r_max'],
-                            semilla = d['semilla'], creador = request.user, visible = d['visible'])
+            dataset = Dataset(creation_date = datetime.now(), min_radius = d['min_radius'], max_radius = d['max_radius'],
+                            seed = d['seed'], creator = request.user, visible = d['visible'])
             dataset.save()
             tup_n = (int(d['n1']),int(d['n2']),int(d['n3']))
         except:
             return Response(status = status.HTTP_400_BAD_REQUEST)
         
-        fi.iniciar_tarea_dataset(dataset, tupla_n_mallas = tup_n)
+        fi.initiate_dataset_task(dataset, tuple_n_meshes = tup_n)
         return Response(status = status.HTTP_200_OK)
 
     else:
@@ -107,19 +109,20 @@ def generar_dataset(request):
 
 
 
+
 @api_view(['GET'])
-def preparar_dataset(request, pk):
-    """Genera un fichero de descarga de un dataset."""
+def prepare_dataset(request, pk):
+    """It generates a dataset download file."""
     try:
         dataset = Dataset.objects.get(id = pk)
-        if not es_creador_o_publico(dataset, request.user):
+        if not is_creator_or_public(dataset, request.user):
             return Response(status = status.HTTP_403_FORBIDDEN)
 
     except:
         return Response(status = status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET': 
-        fi.generar_fichero_dataset(dataset.id, request.user.get_username())
+        fi.generate_dataset_file(dataset.id, request.user.get_username())
         url_dataset = settings.URL_PUERTO + settings.MEDIA_URL + "datasets/" + "{}_dataset{}.csv".format(request.user.get_username(), pk)
 
         return Response({"url_dataset" : url_dataset}, status = status.HTTP_200_OK) 
@@ -131,22 +134,22 @@ def preparar_dataset(request, pk):
 
 
 @api_view(['DELETE'])
-def cancelar_tarea_dataset(request, pk):
-    """Cancela la subida o generación de un dataset.""" 
+def cancel_dataset_task(request, pk):
+    """It cancels the upload or generation of a dataset.""" 
     try:
         dataset = Dataset.objects.get(id = pk)
-        if not es_creador(dataset, request.user):
+        if not is_creator(dataset, request.user):
             return Response(status = status.HTTP_403_FORBIDDEN)
     except:
         return Response(status = status.HTTP_404_NOT_FOUND)
 
     if request.method == 'DELETE':
-        if dataset.estado != "pendiente" and dataset.estado != "finalizado":
-            tarea_id = dataset.estado
-            revoke(tarea_id, terminate=True)
+        if dataset.state != "pending" and dataset.state != "finished":
+            task_id = dataset.state
+            revoke(task_id, terminate=True)
             dataset.delete()
         else:
-            tarea_dataset_finalizada = True #Podría hacer algo con esto
+            task_dataset_finalizada = True #Podría hacer algo con esto
         return Response(status = status.HTTP_204_NO_CONTENT)
     else:
         return Response(status = status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -154,135 +157,141 @@ def cancelar_tarea_dataset(request, pk):
 
 
 
-class SubirDataset(APIView):
-    """Inserta un dataset en la BD a partir del fichero subido por el usuario."""
+
+class UploadDataset(APIView):
+    """It inserts a dataset in the DB from the file uploaded by the user."""
     parser_classes = (MultiPartParser, )#(FileUploadParser,)#(MultiPartParser, )
 
     def post(self, request, format=None):
         try:
-
             d = request.data
-            dataset = Dataset(fecha_creacion = datetime.now(), r_min = d['r_min'], r_max = d['r_max'],
-                            semilla = d['semilla'], creador = request.user, visible = d['visible'])
+            dataset = Dataset(creation_date = datetime.now(), min_radius = d['min_radius'], max_radius = d['max_radius'],
+                            seed = d['seed'], creator = request.user, visible = d['visible'])
             dataset.save()
             f = request.data['file'] #Podría usar un bucle con chunks() para mayor seguridad.
 
         except Exception as e:
-            print(str(e))
             return Response(status = status.HTTP_400_BAD_REQUEST)
 
         try:
-            fi.iniciar_tarea_dataset(dataset, f)
+            fi.initiate_dataset_task(dataset, f)
             return Response(status=status.HTTP_204_NO_CONTENT)
 
-        except: #En caso de que la estructura del fichero sea incorrecta.
+        except: #Incorrect structure file
             dataset.delete()
             return Response(status = status.HTTP_406_NOT_ACCEPTABLE) 
-            #No sé si este código de error puedo usarlo para este tipo de situaciones
-            #Creo que podría añadir un mensaje, indicando el error concreto
 
 
 
 
 
 
-############################Modelos############################
-class ListModelo(generics.ListAPIView):
-    """Devuelve la lista de modelos están disponibles para el usuario."""
-    serializer_class = ModeloSerializer
+
+############################Models############################
+class ListModels(generics.ListAPIView):
+    """It returns the list of models available to the user."""
+    serializer_class = ModelSerializer
 
     def get_queryset(self):
         #Si se introducen mal estos parámetros, simplemente se ignoran
         propio = self.request.query_params.get('propio')
-        tipo = self.request.query_params.get('tipo')
-        print("INTERIOR:", propio)
-
-        lista_modelos = Modelo.objects.filter(Q(visible = True) | Q(creador = self.request.user), estado = 'finalizado')
-        print("longitud_inicial:", len(lista_modelos))
-        if(propio is not None):
-            print("PROPIO")
-            lista_modelos = lista_modelos.filter(creador = self.request.user.get_username())
+        type = self.request.query_params.get('type')
         
-        print("TIPO FUERA:", tipo)
 
-        if(tipo == "DNN" or tipo == "RF" or tipo == "SVM"):
-            print("TIPO:", tipo)
-            lista_modelos = lista_modelos.filter(tipo = tipo)
-        print("LONGITUD:", len(lista_modelos))
-        return lista_modelos
+        models_list = Model.objects.filter(Q(visible = True) | Q(creator = self.request.user), state = 'finished')
+        
+        if(propio is not None):
+            
+            models_list = models_list.filter(creator = self.request.user.get_username())
+        
+        
 
-class ListModeloEntrenando(generics.ListAPIView):
-    """Devuelve la lista de modelos en entrenamiento."""
-    serializer_class = ModeloSerializer
+        if(type == "DNN" or type == "RF" or type == "SVM"):
+            
+            models_list = models_list.filter(type = type)
+        
+        return models_list
+
+
+
+class ListTrainingModels(generics.ListAPIView):
+    """It returns the list of models being trained."""
+    serializer_class = ModelSerializer
 
     def get_queryset(self):
-        lista_entrenamientos = Modelo.objects.filter(~Q(estado = "pendiente"), ~Q(estado = "finalizado"), creador = self.request.user)
-        return lista_entrenamientos
+        list_trainings = Model.objects.filter(~Q(state = "pending"), ~Q(state = "finished"), creator = self.request.user)
+        return list_trainings
 
-class ListModeloPendiente(generics.ListAPIView):
-    """Devuelve la lista de modelos cuyo entrenamiento ha finalizado, pero todavía no han sido
-    guardados por el usuario."""
-    serializer_class = ModeloSerializer
+
+
+
+class ListPendingModels(generics.ListAPIView):
+    """It returns the list of models whose training has been completed, but not yet saved by the user."""
+    serializer_class = ModelSerializer
 
     def get_queryset(self):
-        lista_pendientes = Modelo.objects.filter(estado = "pendiente", creador = self.request.user)
-        return lista_pendientes
+        list_pendings = Model.objects.filter(state = "pending", creator = self.request.user)
+        return list_pendings
+
+
+
 
 
 @api_view(['GET', 'DELETE', 'PATCH'])
-def obtiene_modelo(request, pk):
-    """Devuelve un modelo particular."""
-    print("----------a----------")
+def get_model(request, pk):
+    """It returns a specific model."""
+    
     try:
-        print("----------b----------")
-        modelo_generico = Modelo.objects.get(id = pk)
-        if not es_creador_o_publico(modelo_generico, request.user):
+        
+        generic_model = Model.objects.get(id = pk)
+        if not is_creator_or_public(generic_model, request.user):
             return Response(status = status.HTTP_403_FORBIDDEN)
-        print("----------c----------")
-        if modelo_generico.tipo == "DNN":
-            modelo_especifico = Modelo_red_neuronal.objects.get(id_modelo = pk)
-        elif modelo_generico.tipo == "RF":
-            modelo_especifico = Modelo_random_forest.objects.get(id_modelo = pk)
-        elif modelo_generico.tipo == "SVM":
-            modelo_especifico = Modelo_maquina_soporte_vectorial.objects.get(id_modelo = pk)
+        
+        if generic_model.type == "DNN":
+            specific_model = Neural_network_model.objects.get(id_model = pk)
+        elif generic_model.type == "RF":
+            specific_model = Random_forest_model.objects.get(id_model = pk)
+        elif generic_model.type == "SVM":
+            specific_model = SVM_model.objects.get(id_model = pk)
         else:
-            print("----------d----------")
+            print("Incorrect model type.")
+            
     except:
         logging.exception("message")
         return Response(status = status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET': 
-        modelo_gen_serializado = ModeloSerializer(modelo_generico)
+        model_gen_serializado = ModelSerializer(generic_model)
         
         
-        if modelo_generico.tipo == "DNN":
-            modelo_espec_serializado = DNNSerializer(modelo_especifico)
-        elif modelo_generico.tipo == "RF":
-            modelo_espec_serializado = RFSerializer(modelo_especifico)
-        elif modelo_generico.tipo == "SVM":
-            modelo_espec_serializado = SVMSerializer(modelo_especifico)
+        if generic_model.type == "DNN":
+            model_espec_serializado = DNNSerializer(specific_model)
+        elif generic_model.type == "RF":
+            model_espec_serializado = RFSerializer(specific_model)
+        elif generic_model.type == "SVM":
+            model_espec_serializado = SVMSerializer(specific_model)
         
-        dict_respuesta = {'modelo_generico' : modelo_gen_serializado.data, 'modelo_especifico' : modelo_espec_serializado.data}
-        print("TIPO:", type(modelo_gen_serializado.data))
+        dict_respuesta = {'generic_model' : model_gen_serializado.data, 'specific_model' : model_espec_serializado.data}
+        
         return Response(dict_respuesta) #Me falta especificar un status. No, devuelve por defecto 200
 
     elif request.method == "DELETE":
-        if not es_creador(modelo_generico, request.user):
+        if not is_creator(generic_model, request.user):
             return Response(status = status.HTTP_403_FORBIDDEN)
 
-        fi.eliminar_fichero_modelo(modelo_generico.id)
-        modelo_generico.delete()
+        fi.remove_model_file(generic_model.id)
+        generic_model.delete()
         return Response(status = status.HTTP_204_NO_CONTENT)
     
     elif request.method == "PATCH":
-        if not es_creador(modelo_generico, request.user):
+        if not is_creator(generic_model, request.user):
             return Response(status = status.HTTP_403_FORBIDDEN)
 
         try:
             d = request.data
-            print("PAAAATCH:", d)
-            modelo_generico.estado = d['estado']
-            modelo_generico.save()
+            
+            generic_model.state = d['state']
+            generic_model.save()
         except:
             return Response(status = status.HTTP_400_BAD_REQUEST)
 
@@ -293,117 +302,116 @@ def obtiene_modelo(request, pk):
 
 
 
+
+
     
 @api_view(['POST'])
-def entrenar_DNN(request):
-    """Entrena un modelo de tipo DNN"""
+def train_DNN(request):
+    """It trains a DNN model."""
 
     if request.method == 'POST':
         try:
             d = request.data
             dataset = Dataset.objects.get(id = d['dataset'])
-            if not es_creador_o_publico(dataset, request.user):
+            if not is_creator_or_public(dataset, request.user):
                 return Response(status = status.HTTP_403_FORBIDDEN)
 
-            print("Hola1")
-            modelo = Modelo(tipo = "DNN",
-                            comentarios_adicionales = d['comentarios'],
-                            creador = request.user, visible = d['visibilidad'], estado = "entrenando", 
-                            fecha_hora_inicio = datetime.now(),
+            
+            model = Model(type = "DNN",
+                            comentaries = d['comentarios'],
+                            creator = request.user, visible = d['visibilidad'], state = "entrenando", 
+                            datetime_start = datetime.now(),
                             dataset = dataset)
-            print("Hola2")
-            print(d['n_neuronas'])
-            #print("Problema:", d.getlist('n_neuronas'))
-            modelo_ANN = Modelo_red_neuronal(id_modelo = modelo, capas_ocultas = d['n_capas_ocultas'], neuronas_por_capa = d['n_neuronas'],
-                                            funcion_activacion_interna = d['funcion_activacion_interna'], funcion_activacion_salida = d['funcion_activacion_salida'],
-                                            funcion_error = d['funcion_error'],
-                                            epocas = d['n_epocas'], lotes = d['tamanho_lotes'],
+            
+            model_ANN = Neural_network_model(id_model = model, hidden_layers = d['n_hidden_layers'], neurons_per_layer = d['n_neuronas'],
+                                            inside_activation_function = d['inside_activation_function'], outside_activation_function = d['outside_activation_function'],
+                                            error_function = d['error_function'],
+                                            epochs = d['n_epochs'], batch_size = d['batch_size'],
                                             learning_rate = d['learning_rate'],
                                             momentum = d['momentum'])
-            print("Hola 3")
-            modelo.save()
-            modelo_ANN.save()
-            for m in d['metricas']:
-                met = Metrica(id_modelo = modelo, nombre_metrica = m)
+            
+            model.save()
+            model_ANN.save()
+            for m in d['metrics']:
+                met = Metric(id_model = model, name = m)
                 met.save()
         except Exception as e:
-            print(str(e))
             return Response(status = status.HTTP_400_BAD_REQUEST)
 
-        fi.entrenar_modelo(modelo.id)
-
+        fi.train_model(model.id)
         return Response(status = status.HTTP_200_OK)
     else:
         return Response(status = status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
+
 @api_view(['POST'])
-def entrenar_RF(request):
-    """Entrena un modelo de tipo Random Forest"""
+def train_RF(request):
+    """It trains a Random Forest model."""
 
     if request.method == 'POST':
         try:
             d = request.data
             dataset = Dataset.objects.get(id = d['dataset'])
-            if not es_creador_o_publico(dataset, request.user):
+            if not is_creator_or_public(dataset, request.user):
                 return Response(status = status.HTTP_403_FORBIDDEN)
 
-            modelo = Modelo(tipo = "RF",
-                            comentarios_adicionales = d['comentarios'],
-                            creador = request.user, visible = d['visibilidad'], estado = "entrenando",
-                            fecha_hora_inicio = datetime.now(),
+            model = Model(type = "RF",
+                            comentaries = d['comentarios'],
+                            creator = request.user, visible = d['visibilidad'], state = "entrenando",
+                            datetime_start = datetime.now(),
                             dataset = dataset)
-            modelo_RF = Modelo_random_forest(id_modelo = modelo, n_estimadores = d['n_estimadores'], profundidad_max = d['profundidad_max'],
+            model_RF = Random_forest_model(id_model = model, n_estimators = d['n_estimators'], max_depth = d['max_depth'],
                                             min_samples_split = d['min_samples_split'], min_samples_leaf = d['min_samples_leaf'])
 
-            modelo.save()
-            modelo_RF.save()
+            model.save()
+            model_RF.save()
 
-            for m in d['metricas']:
-                met = Metrica(id_modelo = modelo, nombre_metrica = m)
+            for m in d['metrics']:
+                met = Metric(id_model = model, name = m)
                 met.save()
         except Exception as e:
-            print(str(e))
+            
             return Response(status = status.HTTP_400_BAD_REQUEST)
 
-        fi.entrenar_modelo(modelo.id)
+        fi.train_model(model.id)
         
         return Response(status = status.HTTP_200_OK)
     else:
         return Response(status = status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
+
 @api_view(['POST'])
-def entrenar_SVM(request):
-    """Entrena un modelo de tipo SVM"""
+def train_SVM(request):
+    """It trains a SVM model."""
 
     if request.method == 'POST':
         try:
             d = request.data
             dataset = Dataset.objects.get(id = d['dataset'])
-            if not es_creador_o_publico(dataset, request.user):
+            if not is_creator_or_public(dataset, request.user):
                 return Response(status = status.HTTP_403_FORBIDDEN)
 
-            modelo = Modelo(tipo = "SVM",
-                            comentarios_adicionales = d['comentarios'],
-                            creador = request.user, visible = d['visibilidad'], estado = "entrenando",
-                            fecha_hora_inicio = datetime.now(),
+            model = Model(type = "SVM",
+                            comentaries = d['comentarios'],
+                            creator = request.user, visible = d['visibilidad'], state = "entrenando",
+                            datetime_start = datetime.now(),
                             dataset = dataset)
-            modelo_SVM = Modelo_maquina_soporte_vectorial(id_modelo = modelo, kernel = d['kernel'], grado = d['grado'], gamma = d['gamma'],
+            model_SVM = SVM_model(id_model = model, kernel = d['kernel'], degree = d['degree'], gamma = d['gamma'],
                                             coef0 = d['coef0'], c = d['c'], epsilon = d['epsilon'], tol = d['tol'])
 
-            modelo.save()
-            modelo_SVM.save()
+            model.save()
+            model_SVM.save()
 
-            for m in d['metricas']:
-                met = Metrica(id_modelo = modelo, nombre_metrica = m)
+            for m in d['metrics']:
+                met = Metric(id_model = model, name = m)
                 met.save()
         except Exception as e:
-            print(str(e))
+            
             return Response(status = status.HTTP_400_BAD_REQUEST)
 
-        fi.entrenar_modelo(modelo.id)
-        
+        fi.train_model(model.id)
         return Response(status = status.HTTP_200_OK)
     else:
         return Response(status = status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -411,26 +419,24 @@ def entrenar_SVM(request):
 
 
 @api_view(['DELETE'])
-def cancelar_entrenamiento(request, pk):
-    """Cancela el entrenamiento de un modelo."""
+def cancel_training(request, pk):
+    """It cancels a model training."""
 
     try:
-        modelo = Modelo.objects.get(id = pk)
-        if not es_creador(modelo, request.user):
+        model = Model.objects.get(id = pk)
+        if not is_creator(model, request.user):
             return Response(status = status.HTTP_403_FORBIDDEN)
     except:
         return Response(status = status.HTTP_404_NOT_FOUND)
 
     if request.method == 'DELETE':
-
-        if modelo.estado != "pendiente" and modelo.estado != "finalizado":
-            tarea_id = modelo.estado
-            print("Estado:", tarea_id)
-            revoke(tarea_id, terminate=True)
-            modelo.delete()
+        if model.state != "pending" and model.state != "finished":
+            task_id = model.state
+            
+            revoke(task_id, terminate=True)
+            model.delete()
         else:
-            print("bbb")
-            entrenamiento_finalizado = True #Podría hacer algo con esto
+            training_finished = True #Podría hacer algo con esto
         return Response(status = status.HTTP_204_NO_CONTENT)
     else:
         return Response(status = status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -438,59 +444,56 @@ def cancelar_entrenamiento(request, pk):
 
 
 @api_view(['GET'])
-def comparar_modelos(request):
-    """Realiza la comparación de los modelos indicados en la petición."""
+def compare_models(request):
+    """It performs the comparison of the models indicated in the request."""
 
     try:
-        lista_id_modelos =  request.query_params.get('lista_modelos') #Convierte el string en una lista
-        print("L: ", lista_id_modelos, " TIPO: ", type(lista_id_modelos))
-        lista_id_modelos = [int(x) for x in lista_id_modelos.split(",")]
-        lista_id_modelos.sort()
-        print("a")
-        lista_metricas =  request.query_params.get('lista_metricas') #Quito los corchetes y creo una lista de strings
-        print("b")
-        lista_metricas = [x for x in lista_metricas.split(",")]
-        print("c")
+        list_id_models =  request.query_params.get('models_list') #Convierte el string en una list
+        
+        list_id_models = [int(x) for x in list_id_models.split(",")]
+        list_id_models.sort()
+        
+        metrics_list =  request.query_params.get('metrics_list') #Quito los corchetes y creo una list de strings
+        
+        metrics_list = [x for x in metrics_list.split(",")]
+        
         id_dataset = request.query_params.get('dataset')
-        postprocesar = request.query_params.get('postprocesar')
-        nombre_usuario = request.user.get_username()
+        postprocessing = request.query_params.get('postprocessing')
+        username = request.user.get_username()
 
-        if postprocesar == "true":
-            postprocesar = True
+        if postprocessing == "true":
+            postprocessing = True
         else:
-            postprocesar = False
+            postprocessing = False
     except:
         return Response(status = status.HTTP_400_BAD_REQUEST)
 
-    dict_tipos = {}
-    try:
-        print("Modelos:", lista_id_modelos)
-        print("Tipo: ", type(lista_id_modelos))
-        for id_modelo in lista_id_modelos:
-            modelo = Modelo.objects.get(id = id_modelo)
-            dict_tipos[id_modelo] = modelo.tipo
-            if not es_creador_o_publico(modelo, request.user):
+    dict_types = {}
+    try: 
+        for id_model in list_id_models:
+            model = Model.objects.get(id = id_model)
+            dict_types[id_model] = model.type
+            if not is_creator_or_public(model, request.user):
                 return Response(status = status.HTTP_403_FORBIDDEN)
 
-        print("Dataset")
         dataset = Dataset.objects.get(id = id_dataset)
-        print("Fin dataset")
-        if not es_creador_o_publico(dataset, request.user):
+        
+        if not is_creator_or_public(dataset, request.user):
             return Response(status = status.HTTP_403_FORBIDDEN)
     except:
         return Response(status = status.HTTP_404_NOT_FOUND)
 
 
     if request.method == 'GET': 
-        dict_metricas, _, matrices_confusion = fi.comparacion_modelos(nombre_usuario, lista_id_modelos, lista_metricas, id_dataset, postprocesar)
+        dict_metrics, _, matrices_confusion = fi.compare_models(username, list_id_models, metrics_list, id_dataset, postprocessing)
         dict_respuesta = {}
-        dict_respuesta['metricas'] = dict_metricas
-        dict_respuesta['tipos'] = dict_tipos
+        dict_respuesta['metrics'] = dict_metrics
+        dict_respuesta['types'] = dict_types
 
-        if 'accuracy' in lista_metricas:
+        if 'accuracy' in metrics_list:
             dict_confusion = {}
             for k in matrices_confusion.keys(): #Serializo las matrices de confusion
-                dict_confusion[k] = Matriz_confusionSerializer(matrices_confusion[k]).data
+                dict_confusion[k] = Matrix_confusionSerializer(matrices_confusion[k]).data
             dict_respuesta['matrices_confusion'] = dict_confusion
 
         return Response(dict_respuesta, status = status.HTTP_200_OK) #Me falta especificar un status
@@ -507,85 +510,88 @@ def comparar_modelos(request):
 
 
 
-###########################Mallas############################
-class ListVoltaje(generics.ListAPIView):
-    """Devuelve la lista de voltajes del rango de mallas indicado para un dataset."""
+###########################Meshes############################
+class ListVoltages(generics.ListAPIView):
+    """It returns a list of lists of voltages in the indicated range of meshes for a dataset."""
 
-    serializer_class = MallaVoltajesSerializer
+    serializer_class = MeshVoltagesSerializer
 
     def get_queryset(self):
         #Tengo que hacer algo si en la petición no se introducen estas opciones
         try:
             dataset = self.request.query_params.get('dataset')
-            indice_inicio = int(self.request.query_params.get('indice_inicio'))
-            indice_fin = int(self.request.query_params.get('indice_fin'))
-            lista_mallas_voltajes = Malla.objects.filter(dataset = dataset)[indice_inicio:indice_fin]
+            index_inicio = int(self.request.query_params.get('index_inicio'))
+            index_fin = int(self.request.query_params.get('index_fin'))
+            meshes_list_voltages = Mesh.objects.filter(dataset = dataset)[index_inicio:index_fin]
 
             dat = Dataset.objects.get(id = dataset)
-            if not es_creador_o_publico(dat, self.request.user):
+            if not is_creator_or_public(dat, self.request.user):
                 return Response(status = status.HTTP_403_FORBIDDEN)
         except:
-            raise ParseError(detail=None) #Devolverá mensaje HTTP 400 BAD REQUEST
-        return lista_mallas_voltajes
+            raise ParseError(detail=None) #Devolverá message HTTP 400 BAD REQUEST
+        return meshes_list_voltages
 
 
-class ListConductividad(generics.ListAPIView):
-    """Devuelve la lista de conductividades del rango de mallas indicado para un dataset."""
-    serializer_class = MallaConductividadesSerializer
+
+
+class ListConductivities(generics.ListAPIView):
+    """It returns a list of lists of conductivities in the indicated range of meshes for a dataset."""
+    serializer_class = MeshConductivitiesSerializer
 
     def get_queryset(self):
         #Tengo que hacer algo si en la petición no se introducen estas opciones
         try:
             dataset = self.request.query_params.get('dataset')
-            n_art = int(self.request.query_params.get('numero_artefactos'))
-            indice_inicio = int(self.request.query_params.get('indice_inicio'))
-            indice_fin = int(self.request.query_params.get('indice_fin'))
-            lista_mallas_conductividades = Malla.objects.filter(dataset = dataset, numero_artefactos = n_art)[indice_inicio:indice_fin]
+            n_art = int(self.request.query_params.get('number_artifacts'))
+            index_inicio = int(self.request.query_params.get('index_inicio'))
+            index_fin = int(self.request.query_params.get('index_fin'))
+            meshes_list_conductivities = Mesh.objects.filter(dataset = dataset, number_artifacts = n_art)[index_inicio:index_fin]
 
             dat = Dataset.objects.get(id = dataset)
-            if not es_creador_o_publico(dat, self.request.user):
+            if not is_creator_or_public(dat, self.request.user):
                 return Response(status = status.HTTP_403_FORBIDDEN)
         except:
             raise ParseError(detail=None)
-        return lista_mallas_conductividades
+        return meshes_list_conductivities
         
 
+
+
 @api_view(['GET'])
-def reconstruir_img(request):
-    """Reconstruye la imagen de un dataset (real y predicha)."""
-    #Tengo que comprobar permisos para dataset y modelo
+def reconstruct_img(request):
+    """It reconstructs the image of a mesh from a dataset (real y predicted)."""
+    #Tengo que comprobar permisos para dataset y model
     try:
         dataset = int(request.query_params.get('dataset'))
-        indice = int(request.query_params.get('indice'))
-        modelo = int(request.query_params.get('modelo'))
-        postprocesar = request.query_params.get('postprocesar')
+        index = int(request.query_params.get('index'))
+        model = int(request.query_params.get('model'))
+        postprocessing = request.query_params.get('postprocessing')
 
-        if postprocesar == "true":
-            postprocesar = True
+        if postprocessing == "true":
+            postprocessing = True
         else:
-            postprocesar = False
+            postprocessing = False
     except:
         return Response(status = status.HTTP_400_BAD_REQUEST)
 
     try:
         dat = Dataset.objects.get(id = dataset)
-        mod = Modelo.objects.get(id = modelo)
-        m = Malla.objects.get(dataset = dataset, indice = indice)
+        mod = Model.objects.get(id = model)
+        m = Mesh.objects.get(dataset = dataset, index = index)
 
-        if (not es_creador_o_publico(dat, request.user)) or (not es_creador_o_publico(mod, request.user)):
+        if (not is_creator_or_public(dat, request.user)) or (not is_creator_or_public(mod, request.user)):
             return Response(status = status.HTTP_403_FORBIDDEN)
     except:
         return Response(status = status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':  
+        predicted_conductivities, marcas = fi.reconstruct_img(m.id, model, request.user.get_username(), postprocessing_flag = postprocessing)
 
-        conductividades_predichas, marcas = fi.reconstruir_img(m.id, modelo, request.user.get_username(), postprocesado_flag = postprocesar)
-
-        url_real = settings.URL_PUERTO + settings.MEDIA_URL + "images/" + "malla1_{}_{}.png".format(request.user.get_username(), marcas[0])
-        url_reconstruida = settings.URL_PUERTO + settings.MEDIA_URL + "images/" + "malla2_{}_{}.png".format(request.user.get_username(), marcas[1])
+        url_real = settings.URL_PUERTO + settings.MEDIA_URL + "images/" + "mesh1_{}_{}.png".format(request.user.get_username(), marcas[0])
+        url_reconstructed = settings.URL_PUERTO + settings.MEDIA_URL + "images/" + "mesh2_{}_{}.png".format(request.user.get_username(), marcas[1])
         
-
-        diccionario_urls = {'url_real' : url_real, 'url_reconstruida' : url_reconstruida, 'conductividades_predichas' : conductividades_predichas}
+        diccionario_urls = {'url_real' : url_real, 'url_reconstructed' : url_reconstructed, 'predicted_conductivities' : predicted_conductivities}
+        
         return Response(diccionario_urls, status = status.HTTP_200_OK)
     else:
         return Response(status = status.HTTP_405_METHOD_NOT_ALLOWED)
@@ -593,87 +599,82 @@ def reconstruir_img(request):
 
 
 @api_view(['POST'])
-def genera_corte(request):
-    """Genera el corte de una malla en el valor del eje Y indicado."""
-    #Tengo que comprobar permisos para dataset y modelo
+def generate_cut(request):
+    """It generates the cut of a mesh at the indicated Y-axis value."""
+
     try:
         d = request.data
         dataset = int(d['dataset'])
-        indice = int(d['indice'])
+        index = int(d['index'])
         y = float(d['y'])
-        print("Y: ", y)
-        print("A1");
-        conductividades_predichas = [float(i) for i in d['conductividades']]
-        print("A2")
+        predicted_conductivities = [float(i) for i in d['conductivities']]
         
     except:
         return Response(status = status.HTTP_400_BAD_REQUEST)
 
     try:
         dat = Dataset.objects.get(id = dataset)
-        if not es_creador_o_publico(dat, request.user):
+        if not is_creator_or_public(dat, request.user):
             return Response(status = status.HTTP_403_FORBIDDEN)
 
-        m = Malla.objects.get(dataset = dataset, indice = indice)
+        m = Mesh.objects.get(dataset = dataset, index = index)
     except:
         return Response(status = status.HTTP_404_NOT_FOUND)
 
     if request.method == 'POST':      
-        url_corte_aux = fi.cortes(m.id, conductividades_predichas, request.user.get_username(), y)
+        url_cut_aux = fi.cuts(m.id, predicted_conductivities, request.user.get_username(), y)
+        url_cut = settings.URL_PUERTO + settings.MEDIA_URL + "images/" + url_cut_aux
+        diccionario_urls = {'cuts' : url_cut}
 
-        url_corte = settings.URL_PUERTO + settings.MEDIA_URL + "images/" + url_corte_aux
-
-        diccionario_urls = {'cortes' : url_corte}
         return Response(diccionario_urls, status = status.HTTP_200_OK)
     else:
         return Response(status = status.HTTP_405_METHOD_NOT_ALLOWED)
 
 
-@api_view(['GET'])
-def reconstruir_img_multiple(request):
-    """Reconstruye la imagen de una misma malla con todos los modelos indicados en la petición."""
-    try:
-        lista_id_modelos =  ast.literal_eval(request.query_params.get('lista_modelos')) #Convierte el string en una lista
-        lista_id_modelos = list(lista_id_modelos)
-        print("IBAMOS BIEN")
-        print("TIPO PIK:", type(lista_id_modelos))
-        lista_id_modelos.sort()
-        print("AUN MEJOR")
-        indice_malla =  request.query_params.get('indice_malla')
-        id_dataset = request.query_params.get('dataset')
-        postprocesar = request.query_params.get('postprocesar')
-        nombre_usuario = request.user.get_username()
 
-        if postprocesar == "true":
-            postprocesar = True
+
+@api_view(['GET'])
+def reconstruct_img_multiple(request):
+    """I reconstructs the image of the same mesh with all the models indicated in the request."""
+    try:
+        list_id_models =  ast.literal_eval(request.query_params.get('models_list')) #Convierte el string en una list
+        list_id_models = list(list_id_models)
+        
+        
+        list_id_models.sort()
+        
+        mesh_index =  request.query_params.get('mesh_index')
+        id_dataset = request.query_params.get('dataset')
+        postprocessing = request.query_params.get('postprocessing')
+        username = request.user.get_username()
+
+        if postprocessing == "true":
+            postprocessing = True
         else:
-            postprocesar = False
+            postprocessing = False
     except Exception as e:
-        print(str(e))
         return Response(status = status.HTTP_400_BAD_REQUEST)
 
     try:
-        for id_modelo in lista_id_modelos:
-            mod = Modelo.objects.get(id = id_modelo)
-            if not es_creador_o_publico(mod, request.user):
+        for id_model in list_id_models:
+            mod = Model.objects.get(id = id_model)
+            if not is_creator_or_public(mod, request.user):
                 return Response(status = status.HTTP_403_FORBIDDEN)
 
         dat = Dataset.objects.get(id = id_dataset)
-        if not es_creador_o_publico(dat, request.user):
+        if not is_creator_or_public(dat, request.user):
             return Response(status = status.HTTP_403_FORBIDDEN)
     except:
         return Response(status = status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET': 
-        indice_malla, lista_marcas = fi.reconstruir_img_varios_modelos(lista_id_modelos, nombre_usuario,id_dataset, indice_malla, postprocesado_flag = postprocesar)
+        mesh_index, list_marcas = fi.reconstruct_img_several_models(list_id_models, username,id_dataset, mesh_index, postprocessing_flag = postprocessing)
 
         dict_urls = {}
-        for i in range(len(lista_id_modelos) + 1): #Añado una unidad para la imagen real
+        for i in range(len(list_id_models) + 1): #Añado una unidad para la image real
             clave_url = "url" + str(i)
-            valor_url = settings.URL_PUERTO + settings.MEDIA_URL + "images/" + "malla{}_{}_{}.png".format(str(i), request.user.get_username(), lista_marcas[i])
-            dict_urls[clave_url] = valor_url
-
-        print("DICCIONARIO URLS:", dict_urls)
+            value_url = settings.URL_PUERTO + settings.MEDIA_URL + "images/" + "mesh{}_{}_{}.png".format(str(i), request.user.get_username(), list_marcas[i])
+            dict_urls[clave_url] = value_url
 
         return Response(dict_urls, status = status.HTTP_200_OK)
     else:
@@ -682,30 +683,28 @@ def reconstruir_img_multiple(request):
 
 
 @api_view(['POST'])
-def reconstruir_img_simple(request):
-    """Reconstruye una imagen a partir de las conductividades suministradas en la petición."""
+def reconstruct_img_simple(request):
+    """It reconstructs an image from the conductivities supplied in the request."""
     try:
-        print("A")
         d = request.data
-        print("B")
-        id_modelo =  d['modelo']
-        conductividades_predichas = [float(i) for i in d['conductividades']]
-        print("C")
+        id_model =  d['model']
+        predicted_conductivities = [float(i) for i in d['conductivities']]
+        
     except:
         return Response(status = status.HTTP_400_BAD_REQUEST)
 
-    nombre_usuario = request.user.get_username()
+    username = request.user.get_username()
 
     try:
-        mod = Modelo.objects.get(id = id_modelo)
-        if not es_creador_o_publico(mod, request.user):
+        mod = Model.objects.get(id = id_model)
+        if not is_creator_or_public(mod, request.user):
             return Response(status = status.HTTP_403_FORBIDDEN)
     except:
         return Response(status = status.HTTP_404_NOT_FOUND)
 
     if request.method == 'POST': 
-        _,marca = fi.reconstruir_img_individual(conductividades_predichas, id_modelo, nombre_usuario)
-        url_img = settings.URL_PUERTO + settings.MEDIA_URL + "images/" + "malla1_{}_{}.png".format(nombre_usuario, marca)
+        _,marca = fi.reconstruct_img_single(predicted_conductivities, id_model, username)
+        url_img = settings.URL_PUERTO + settings.MEDIA_URL + "images/" + "mesh1_{}_{}.png".format(username, marca)
 
         return Response({"url_img" : url_img}, status = status.HTTP_200_OK)
     else:
@@ -714,9 +713,8 @@ def reconstruir_img_simple(request):
 
 
 
-class PredecirConductividades(APIView):
-    """Predice las conductividades a partir de los voltajes de un fichero de voltajes suministrado
-    en la petición."""
+class PredictConductivities(APIView):
+    """It predicts the conductivities from the voltages of a voltage file supplied in the request."""
     parser_classes = (MultiPartParser, )
 
     def post(self, request, format=None):
@@ -726,23 +724,19 @@ class PredecirConductividades(APIView):
         except:
             return Response(status = status.HTTP_400_BAD_REQUEST)
 
-
         try:
-            mod = Modelo.objects.get(id = d['modelo'])
-            if not es_creador_o_publico(mod, request.user):
+            mod = Model.objects.get(id = d['model'])
+            if not is_creator_or_public(mod, request.user):
                 return Response(status = status.HTTP_403_FORBIDDEN)
         except:
             return Response(status = status.HTTP_404_NOT_FOUND)
 
         try:
-            print("ANTESSSS.")
-            voltajes_reales, conductividades_predichas = fi.predecir_conductividades(d['modelo'], f, request.user.get_username())
-            print("HASTA AQUÍ LLEGA CORRECTAMENTE.")
-            return Response({'voltajes_reales' : voltajes_reales, 'conductividades_predichas' : conductividades_predichas})
+            voltages_reales, predicted_conductivities = fi.predict_conductivities(d['model'], f, request.user.get_username())
+            return Response({'voltages_reales' : voltages_reales, 'predicted_conductivities' : predicted_conductivities})
 
-        except: #En caso de que la estructura del fichero sea incorrecta.
+        except: #Incorrect file structure
             return Response(status = status.HTTP_406_NOT_ACCEPTABLE) 
-            #No sé si este código de error puedo usarlo para este tipo de situaciones
-            #Creo que podría añadir un mensaje, indicando el error concreto
+
 
 
