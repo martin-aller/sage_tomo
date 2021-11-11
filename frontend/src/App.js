@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Inicio from './gestion/Inicio';
+import LogIn from './management/LogIn';
 
 
 
@@ -8,7 +8,7 @@ import Inicio from './gestion/Inicio';
 class App extends Component{
   render(){
     return(
-        <Inicio/>
+        <LogIn/>
     );
   }
 }

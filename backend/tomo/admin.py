@@ -1,8 +1,8 @@
 from django.contrib import admin
 
-from .models import Dataset, Malla, Modelo
+from .models import Dataset, Mesh, Model
 
-# Register your models here.
+# Models to monitorize as admin.
 admin.site.register(Dataset)
-admin.site.register(Malla)
-admin.site.register(Modelo)
+admin.site.register(Mesh)
+admin.site.register(Model)

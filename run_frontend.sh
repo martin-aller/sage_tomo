@@ -7,5 +7,5 @@ if [ $# -gt 0 ]
 		cd $1;
 		npm start;
 	else
-		echo "Introduce como argumento el path en el que se encuentre el frontend."
+		echo "Enter as argument the path where the frontend is located."
 fi

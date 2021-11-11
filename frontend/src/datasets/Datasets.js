@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import Cabecera from '../gestion/Cabecera';
-import BotonAtras from '../gestion/BotonAtras';
-import SinSesion from '../gestion/SinSesion'
-import ModalSiNo from '../gestion/ModalSiNo';
+import Header from '../management/Header';
+import GoBackButton from '../management/GoBackButton';
+import NoSession from '../management/NoSession'
+import ModalYesNo from '../management/ModalYesNo';
 
 import axios from 'axios';
 import {Redirect} from "react-router-dom";
@@ -10,22 +10,22 @@ import {Redirect} from "react-router-dom";
 
 
 class Datasets extends Component{
-    //Vista con el listado de datasets disponibles para un usuario
+    //View with the list of available datasets for the user
     
     constructor(props){
-        console.log("Llega al constructor");
+        
         super(props);
         this.state = {
-            lista_datasets: [],
-            cargando: true,
-            id_detalles: null,
+            datasets_list: [],
+            loading: true,
+            id_details: null,
             showModal: false,
-            id_eliminar: null,
-            id_descargar: null,
-            aDatasetEliminado: false,
-            aGenerarDataset: false,
-            aSubirDataset: false,
-            mensaje_ayuda: <div> <p>This page shows the datasets that you have generated or uploaded or the public datasets generated 
+            id_remove: null,
+            id_download: null,
+            toRemovedDataset: false,
+            toGenerateDataset: false,
+            toUploadDataset: false,
+            help_message: <div> <p>This page shows the datasets that you have generated or uploaded or the public datasets generated 
                                     or uploaded by other users.</p>
                             <p>You can consult the detailed information about each dataset (number of bodies with one, two and 
                                 three artifacts, minimum and maximum radius of the artifacts, etc). You can also download in 
@@ -52,83 +52,77 @@ class Datasets extends Component{
         axios.get(this.props.location.state.url_base + "api_tomo/datasets/", config)
         .then(
             response => {
-                console.log("Obtener datasets.");
-                this.setState({lista_datasets: response.data, cargando: false});
-                console.log(response.data);
-                //console.log(response.data[0].creador.username);
-                //console.log("CREADOR: ", response.data[1])
+                
+                this.setState({datasets_list: response.data, loading: false});
 
             })
         .catch(error => {
-            //this.setState({ mensaje_error: "Nombre de usuario o contraseña incorrectos"});
-            console.error('Se ha producido un error.', error);
+            console.error('An error has occurred', error);
         });
     }
 
-    ver_detalles_dataset(id){
-        this.setState({id_detalles : id});
+    view_dataset_details(id){
+        this.setState({id_details : id});
     }
 
-    setModal(estado){
-        this.setState({showModal: estado});
+    setModal(state){
+        this.setState({showModal: state});
     }
 
-    setModalId(estado,id){
-        this.setState({showModal: estado, id_eliminar: id});
+    setModalId(state,id){
+        this.setState({showModal: state, id_remove: id});
 
     }
 
 
 
-    eliminar_dataset(){
+    remove_dataset(){
         const config = {
             headers: {
               'Authorization': 'Token ' + this.props.location.state.token
             }
         }
-        const id = this.state.id_eliminar;
+        const id = this.state.id_remove;
 
         axios.delete(this.props.location.state.url_base + "api_tomo/datasets/" + id + "/", config)
         .then(
             response => {
-                console.log("Dataset eliminado.");
-                this.setState({aDatasetEliminado: true});
+                
+                this.setState({toRemovedDataset: true});
 
             })
         .catch(error => {
-            //this.setState({ mensaje_error: "Nombre de usuario o contraseña incorrectos"});
-            console.error('Se ha producido un error.', error);
+            console.error('An error has occurred', error);
         });   
     }
 
-    acceder_generar_dataset(){
-        this.setState({aGenerarDataset: true});
+    access_generate_dataset(){
+        this.setState({toGenerateDataset: true});
     }
 
 
-    obtiene_fecha(datetime){
+    get_date(datetime){
         var fecha = "";
         fecha = datetime.split("T")[0];
         return fecha;
     }
 
+
     render(){
-        console.log("Se ejecuta Datasets");
-
-
-        if (this.state.id_detalles !== null) {
+        
+        if (this.state.id_details !== null) {
             return <Redirect push to={{
-                pathname: '/datasets/' + this.state.id_detalles,
+                pathname: '/datasets/' + this.state.id_details,
                 state: { token: this.props.location.state.token, url_base: this.props.location.state.url_base}
             }}/>        
         }
 
 
-        if (this.state.aDatasetEliminado === true) {
+        if (this.state.toRemovedDataset === true) {
             return <Redirect push to={{
-                pathname: '/objeto_eliminado',
-                state: { tipo_objeto: "dataset",
-                         id: this.state.id_eliminar,
+                pathname: '/object_removedo',
+                state: { type_object: "dataset",
+                         id: this.state.id_remove,
                          token: this.props.location.state.token,
                          url_base: this.props.location.state.url_base
                          }
@@ -136,7 +130,7 @@ class Datasets extends Component{
         }
 
 
-        if (this.state.aGenerarDataset === true) {
+        if (this.state.toGenerateDataset === true) {
             return <Redirect push to={{
                 pathname: '/dataset_generar',
                 state: { token: this.props.location.state.token, url_base: this.props.location.state.url_base}
@@ -145,7 +139,7 @@ class Datasets extends Component{
 
 
 
-        if (this.state.aSubirDataset === true) {
+        if (this.state.toUploadDataset === true) {
             return <Redirect push to={{
                 pathname: '/dataset_subir',
                 state: { token: this.props.location.state.token, url_base: this.props.location.state.url_base}
@@ -153,9 +147,9 @@ class Datasets extends Component{
         }
 
 
-        if (this.state.id_descargar !== null) {
+        if (this.state.id_download !== null) {
             return <Redirect push to={{
-                pathname: '/dataset_descargar/' + this.state.id_descargar,
+                pathname: '/dataset_download/' + this.state.id_download,
                 state: { token: this.props.location.state.token, url_base: this.props.location.state.url_base}
             }}/>        
         }
@@ -164,16 +158,16 @@ class Datasets extends Component{
             <div>
                 {this.props.location.state !== undefined && "token" in  this.props.location.state ? (
                     <div>
-                        <Cabecera con_cuenta = {true} mensaje_ayuda = {this.state.mensaje_ayuda} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
-                        <BotonAtras/>
+                        <Header con_cuenta = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
+                        <GoBackButton/>
         
                         
-                        <ModalSiNo
+                        <ModalYesNo
                             show = {this.state.showModal}
-                            si = {() => this.eliminar_dataset()}
+                            si = {() => this.remove_dataset()}
                             no = {() => this.setModal(false)}
                             cabecera = "Remove dataset"
-                            mensaje = {"¿Do you really want to remove the dataset with ID " + this.state.id_eliminar +"?"}
+                            message = {"¿Do you really want to remove the dataset with ID " + this.state.id_remove +"?"}
                         />
         
         
@@ -182,44 +176,44 @@ class Datasets extends Component{
                                 <div className="card col-md-12 caja" >
                                 <div className="card-body">
                                     <h3 className="card-title titulo" > <b>Datasets</b> </h3>
-                                    {this.state.cargando === true ? (
-                                        <div className="row" id = "cargar">
+                                    {this.state.loading === true ? (
+                                        <div className="row" id = "load">
                                             <div className = "col text-center">
-                                                <div className="spinner-border text-dark cargador" role="status">
+                                                <div className="spinner-border text-dark loaddor" role="status">
                                                 </div>
                                             </div>
                                         </div>
                                     ) : (
                                         <div>
-                                            {this.state.lista_datasets.length > 0 ? (
+                                            {this.state.datasets_list.length > 0 ? (
                                                 <table className = "table table-striped tabla_scroll_x tabla_scroll_y">
                                                     <thead>
                                                         <tr>
-                                                            <th scope="col" className = "ancho_col">Id </th>
-                                                            <th scope="col" className = "ancho_col">Creator </th>
-                                                            <th scope="col" className = "ancho_col">Creation date </th>
-                                                            <th scope="col" className = "ancho_col">Number of meshes </th>
-                                                            <th scope="col" className = "ancho_col"></th>
-                                                            <th scope="col" className = "ancho_col"></th>
-                                                            <th scope="col" className = "ancho_col"></th>
+                                                            <th scope="col" className = "width_col">Id </th>
+                                                            <th scope="col" className = "width_col">Creator </th>
+                                                            <th scope="col" className = "width_col">Creation date </th>
+                                                            <th scope="col" className = "width_col">Number of meshes </th>
+                                                            <th scope="col" className = "width_col"></th>
+                                                            <th scope="col" className = "width_col"></th>
+                                                            <th scope="col" className = "width_col"></th>
                 
                                                         </tr>
                                                     </thead>
                 
                                                     <tbody>
                 
-                                                        {this.state.lista_datasets.map( (dataset) =>
+                                                        {this.state.datasets_list.map( (dataset) =>
                                                             <tr key = {dataset.id}>
                                                                 <th scope="row" >{dataset.id}</th>
                 
-                                                                <td>{dataset.creador.username}</td>
-                                                                <td>{this.obtiene_fecha(dataset.fecha_creacion)}</td>
-                                                                <td>{dataset.n_mallas}</td>
-                                                                <td> <span className = "btn-link cursor_puntero" onClick = {() => this.ver_detalles_dataset(dataset.id)}> View details</span> </td>
+                                                                <td>{dataset.creator.username}</td>
+                                                                <td>{this.get_date(dataset.creation_date)}</td>
+                                                                <td>{dataset.n_meshes}</td>
+                                                                <td> <span className = "btn-link cursor_puntero" onClick = {() => this.view_dataset_details(dataset.id)}> View details</span> </td>
                 
-                                                                <td> <span  className = "btn-link cursor_puntero" onClick={() => this.setState({id_descargar: dataset.id})}> Download</span> </td>
+                                                                <td> <span  className = "btn-link cursor_puntero" onClick={() => this.setState({id_download: dataset.id})}> Download</span> </td>
                 
-                                                                {sessionStorage.usuario === dataset.creador.username ? (
+                                                                {sessionStorage.usuario === dataset.creator.username ? (
                                                                     <td><span className = "btn-link cursor_puntero"  onClick = {() => this.setModalId(true, dataset.id)}> Remove dataset</span></td>
                                                                 ):(
                                                                     <td></td>
@@ -249,21 +243,21 @@ class Datasets extends Component{
                             </div>
                         </div>
         
-                        <div className = "container contenedor_botones_dat">
+                        <div className = "container container_botones_dat">
                             <div className = "row">
                                 <div className="col-md-6 text-center my-auto width_14">
-                                    <span  className="btn-lg btn-dark mb-2 sin_decoracion cursor_puntero" onClick = {() =>this.setState({aSubirDataset:true})}>Upload dataset</span>
+                                    <span  className="btn-lg btn-dark mb-2 sin_decoracion cursor_puntero" onClick = {() =>this.setState({toUploadDataset:true})}>Upload dataset</span>
                                 </div>
         
                                 <div className="col-md-6 text-center my-auto width_14">
-                                    <span className="btn-lg btn-dark mb-2 sin_decoracion cursor_puntero" onClick = {() =>this.acceder_generar_dataset()}>Generate dataset</span>
+                                    <span className="btn-lg btn-dark mb-2 sin_decoracion cursor_puntero" onClick = {() =>this.access_generate_dataset()}>Generate dataset</span>
                                 </div>
                             </div>
                         </div>
         
                     </div>
                 ):(
-                    <SinSesion/>
+                    <NoSession/>
                 )}
 
             </div>

@@ -11,110 +11,112 @@ import random
 
 
 
-#Listado de clases para mapear sobre la BD
+#List of classes to map on the BD.
 
 
 
 class Dataset(models.Model):
-    #Identificador incremental generado de forma automática
-    fecha_creacion = models.DateTimeField()
-    r_min = models.IntegerField()
-    r_max = models.IntegerField()
-    semilla = models.IntegerField()
-    creador = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    #Automatically generated incremental identifier
+    creation_date = models.DateTimeField()
+    min_radius = models.IntegerField()
+    max_radius = models.IntegerField()
+    seed = models.IntegerField()
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     visible = models.BooleanField()
-    estado = models.CharField(max_length = 100, null = True)
+    state = models.CharField(max_length = 100, null = True)
 
 
-    def obtiene_mallas(self, n_art = -1): 
-        """Devuelve la lista de mallas del dataset."""
+    def get_meshes(self, n_art = -1): 
+        """It returns the list of meshes from a dataset."""
 
         if n_art > 0:
-            lista_mallas = Malla.objects.filter(dataset = self, numero_artefactos = n_art).order_by("id")
+            meshes_list = Mesh.objects.filter(dataset = self, number_artifacts = n_art).order_by("id")
         else:
-            lista_mallas = Malla.objects.filter(dataset = self).order_by("id")
+            meshes_list = Mesh.objects.filter(dataset = self).order_by("id")
 
-        return lista_mallas
-
-
-    def obtiene_voltajes(self, n_art = -1):
-        """Devuelve la lista de voltajes del dataset."""
-
-        lista_mallas = Malla.objects.filter(dataset = self).order_by("indice")  
-        lista_voltajes = [m.voltajes for m in lista_mallas]
-        return lista_voltajes
+        return meshes_list
 
 
 
-    def obtiene_conductividades(self, n_art = -1):
-        """Devuelve la lista de conductividades del dataset."""
+    def get_voltages(self, n_art = -1):
+        """It returns the list of lists of voltages from a dataset."""
+
+        meshes_list = Mesh.objects.filter(dataset = self).order_by("index")  
+        list_voltages = [m.voltages for m in meshes_list]
+        return list_voltages
+
+
+
+
+    def get_conductivities(self, n_art = -1):
+        """It returns the list of lists of conductivities from a dataset"""
 
         if(n_art <= 0):
-            lista_mallas = Malla.objects.filter(dataset = self).order_by("indice")   
+            meshes_list = Mesh.objects.filter(dataset = self).order_by("index")   
         else:
-            lista_mallas = Malla.objects.filter(dataset = self, numero_artefactos = n_art).order_by("indice")  
+            meshes_list = Mesh.objects.filter(dataset = self, number_artifacts = n_art).order_by("index")  
 
-        lista_conductividades = [m.conductividades for m in lista_mallas]
+        list_conductivities = [m.conductivities for m in meshes_list]
         
-        return lista_conductividades
+        return list_conductivities
 
 
 
-    def n_mallas(self):
-        """Devuelve el número de mallas del dataset"""
-        n_mallas = Malla.objects.filter(dataset = self).count()
-        return (n_mallas)
+    def n_meshes(self):
+        """It returns the number of meshes of a dataset."""
+        n_meshes = Mesh.objects.filter(dataset = self).count()
+        return (n_meshes)
 
 
-    def n_mallas_1(self):
-        """Devuelve el número de mallas de un artefacto del dataset"""
-        n_mallas = Malla.objects.filter(dataset = self, numero_artefactos = 1).count()
-        return (n_mallas)
+    #We have to define three methods without arguments instead of only one, in order to use them in the serializers.
+    def n_meshes_1(self):
+        """It returns the number of 1-artifact meshes from a dataset."""
+        n_meshes = Mesh.objects.filter(dataset = self, number_artifacts = 1).count()
+        return (n_meshes)
 
-    def n_mallas_2(self):
-        """Devuelve el número de mallas de dos artefactos del dataset"""
-        n_mallas = Malla.objects.filter(dataset = self, numero_artefactos = 2).count()
-        return (n_mallas)
+    def n_meshes_2(self):
+        """It returns the number of 2-artifact meshes from a dataset."""
+        n_meshes = Mesh.objects.filter(dataset = self, number_artifacts = 2).count()
+        return (n_meshes)
 
-    def n_mallas_3(self):
-        """Devuelve el número de mallas de tres artefactos del dataset"""
-        n_mallas = Malla.objects.filter(dataset = self, numero_artefactos = 3).count()
-        return (n_mallas)
+    def n_meshes_3(self):
+        """It returns the number of 3-artifact meshes from a dataset."""
+        n_meshes = Mesh.objects.filter(dataset = self, number_artifacts = 3).count()
+        return (n_meshes)
 
 
-    def obtiene_conjuntos(self, validacion = False):
-        """Devuelve conjuntos de entrenamiento (70% de las mallas) y test (30% de las mallas).
-        Si el argumento validacion es True, se devuelven tres conjuntos: entrenamiento (70% de
-        las mallas), validación (15% de las mallas) y test (15% de las mallas).
-        Para cada conjunto devuelve por separado voltajes y conductividades."""
+    def get_sets(self, validacion = False):
+        """It returns sets of training (70% of the meshes) and test (30% of the meshes). If the validation argument is True, 
+        three sets are returned: training (70% of the meshes), validation (15% of the meshes) and test (15% of the meshes). 
+        For each set, voltages and conductivities are returned separately."""
 
-        len_train = ceil(0.7*self.n_mallas())
-        #len_test = self.n_mallas() - len_train
+        len_train = ceil(0.7*self.n_meshes())
+        #len_test = self.n_meshes() - len_train
 
-        voltajes = self.obtiene_voltajes() 
-        random.Random(self.semilla).shuffle(voltajes)
+        voltages = self.get_voltages() 
+        random.Random(self.seed).shuffle(voltages)
 
-        conductividades = self.obtiene_conductividades()
-        random.Random(self.semilla).shuffle(conductividades)
+        conductivities = self.get_conductivities()
+        random.Random(self.seed).shuffle(conductivities)
 
-        voltajes_train = voltajes[:len_train]
-        conductividades_train = conductividades[:len_train]
+        voltages_train = voltages[:len_train]
+        conductivities_train = conductivities[:len_train]
 
         if not validacion:
-            voltajes_test = voltajes[len_train:]
-            conductividades_test = conductividades[len_train:]
-            voltajes_validacion = []
-            conductividades_validacion = []
+            voltages_test = voltages[len_train:]
+            conductivities_test = conductivities[len_train:]
+            voltages_validacion = []
+            conductivities_validacion = []
         else:
-            len_restante = self.n_mallas() - len_train
+            len_restante = self.n_meshes() - len_train
             len_val = ceil(len_restante/2) 
 
-            voltajes_test = voltajes[len_train:len_train + len_val]
-            conductividades_test = conductividades[len_train:len_train + len_val]
-            voltajes_validacion = voltajes[len_train + len_val:]
-            conductividades_validacion = conductividades[len_train + len_val:]
+            voltages_test = voltages[len_train:len_train + len_val]
+            conductivities_test = conductivities[len_train:len_train + len_val]
+            voltages_validacion = voltages[len_train + len_val:]
+            conductivities_validacion = conductivities[len_train + len_val:]
 
-        return voltajes_train, conductividades_train, voltajes_test, conductividades_test, voltajes_validacion, conductividades_validacion
+        return voltages_train, conductivities_train, voltages_test, conductivities_test, voltages_validacion, conductivities_validacion
 
     class Meta:
         ordering = ("-id", )
@@ -122,37 +124,37 @@ class Dataset(models.Model):
 
 
 
-class Malla(models.Model):
-    #Identificador incremental generado de forma automática
-    indice = models.IntegerField()
-    numero_artefactos = models.IntegerField()
+class Mesh(models.Model):
+    #Automatically generated incremental identifier
+    index = models.IntegerField()
+    number_artifacts = models.IntegerField()
     dataset = models.ForeignKey(Dataset, on_delete = models.CASCADE)
-    voltajes = ArrayField(models.FloatField())
-    conductividades = ArrayField(models.FloatField())
+    voltages = ArrayField(models.FloatField())
+    conductivities = ArrayField(models.FloatField())
 
     class Meta:
-        unique_together = (("indice", "dataset"),)
-        ordering = ("indice", )
+        unique_together = (("index", "dataset"),)
+        ordering = ("index", )
 
-class Modelo(models.Model):
-    #Identificador incremental generado de forma automática
-    tipo = models.CharField(max_length = 30)
-    comentarios_adicionales = models.CharField(max_length = 300)
-    creador = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+class Model(models.Model):
+    #Automatically generated incremental identifier
+    type = models.CharField(max_length = 30)
+    comentaries = models.CharField(max_length = 300, null = True, blank = True)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     visible = models.BooleanField()
-    estado = models.CharField(max_length = 50, null = True)
-    path_modelo = models.CharField(max_length = 300, null = True)
+    state = models.CharField(max_length = 50, null = True)
+    path_model = models.CharField(max_length = 300, null = True, blank = True)
     dataset = models.ForeignKey(Dataset, on_delete = models.PROTECT)
-    umbral_postprocesado = models.FloatField(null = True)
-    fecha_hora_inicio = models.DateTimeField() #Por defecto, Django ya establece la fecha-hora actual
-    fecha_hora_fin = models.DateTimeField(null = True)
+    postprocessing_threshold = models.FloatField(null = True)
+    datetime_start = models.DateTimeField() #By default, set this value to datetime.now()
+    datetime_end = models.DateTimeField(null = True)
 
-    def tiempo_entrenamiento(self):
-        """Devuelve el tiempo de entrenamiento del modelo."""
+    def training_time(self):
+        """It returns the training time of a model."""
 
-        if(self.fecha_hora_fin is None or self.fecha_hora_inicio is None):
-            return "Sin información."
-        tiempo = self.fecha_hora_fin - self.fecha_hora_inicio
+        if(self.datetime_end is None or self.datetime_start is None):
+            return "No information."
+        tiempo = self.datetime_end - self.datetime_start
         duracion = ""
         
         segundos = tiempo.seconds
@@ -168,67 +170,58 @@ class Modelo(models.Model):
         ordering = ("-id", )
     
     
-class Modelo_red_neuronal(models.Model):
-    id_modelo = models.OneToOneField(Modelo, primary_key = True, on_delete = models.CASCADE)
-    capas_ocultas = models.IntegerField()
-    neuronas_por_capa = ArrayField(models.IntegerField(), size = 10) # Nº de neuronas por capa oculta
-    funcion_activacion_interna = models.CharField(max_length = 30)
-    funcion_activacion_salida = models.CharField(max_length = 30)
-    funcion_error = models.CharField(max_length = 30)
-    epocas = models.IntegerField()
-    lotes = models.IntegerField(null = True)
+class Neural_network_model(models.Model):
+    id_model = models.OneToOneField(Model, primary_key = True, on_delete = models.CASCADE)
+    hidden_layers = models.IntegerField()
+    neurons_per_layer = ArrayField(models.IntegerField(), size = 10) 
+    inside_activation_function = models.CharField(max_length = 30)
+    outside_activation_function = models.CharField(max_length = 30)
+    error_function = models.CharField(max_length = 30)
+    epochs = models.IntegerField()
+    batch_size = models.IntegerField(null = True)
     learning_rate = models.FloatField()
     momentum = models.FloatField()
-    binario_arquitectura = models.BinaryField() #Código en binario del modelo
-    binario_pesos = models.BinaryField()
+    architecture_binary = models.BinaryField() 
+    weights_binary = models.BinaryField()
 
 
-class Modelo_random_forest(models.Model):
-    id_modelo = models.OneToOneField(Modelo, primary_key = True, on_delete = models.CASCADE)
-    n_estimadores = models.IntegerField()
-    profundidad_max = models.IntegerField() # Profundidad máxima de los árboles
-    min_samples_split = models.IntegerField() # Nº mínimo de samples requeridos para dividir un nodo interno
-    min_samples_leaf = models.IntegerField() # Nº mínimo de samples requeridos para ser un nodo hoja
-    binario_modelo = models.BinaryField()
+class Random_forest_model(models.Model):
+    id_model = models.OneToOneField(Model, primary_key = True, on_delete = models.CASCADE)
+    n_estimators = models.IntegerField()
+    max_depth = models.IntegerField() 
+    min_samples_split = models.IntegerField() 
+    min_samples_leaf = models.IntegerField() 
+    model_binary = models.BinaryField()
 
-class Modelo_maquina_soporte_vectorial(models.Model):
-    id_modelo = models.OneToOneField(Modelo, primary_key = True, on_delete = models.CASCADE)
+class SVM_model(models.Model):
+    id_model = models.OneToOneField(Model, primary_key = True, on_delete = models.CASCADE)
     kernel = models.CharField(max_length = 30)
-    grado = models.IntegerField()
+    degree = models.IntegerField()
     gamma = models.CharField(max_length = 30)
     coef0 = models.FloatField()
     tol = models.FloatField()
     c = models.FloatField()
     epsilon =  models.FloatField()
-    binario_modelo = models.BinaryField()
+    model_binary = models.BinaryField()
 
 
 
-class Metrica(models.Model):
-    id_modelo = models.ForeignKey(Modelo, on_delete = models.CASCADE, related_name = "metricas")
-    nombre_metrica = models.CharField(max_length = 100) # Por defecto, Django ya establece este valor a datetime.now()
-    valor_metrica = models.FloatField(null = True)
+class Metric(models.Model):
+    id_model = models.ForeignKey(Model, on_delete = models.CASCADE, related_name = "metrics")
+    name = models.CharField(max_length = 100)
+    value = models.FloatField(null = True)
     class Meta:
-        unique_together = (("id_modelo", "nombre_metrica"),)
+        unique_together = (("id_model", "name"),)
 
 
 
-class Matriz_confusion(models.Model):
-    modelo = models.OneToOneField(Modelo, primary_key = True, on_delete = models.CASCADE, related_name = "matriz_confusion")
-    verdaderos_negativos = models.IntegerField()
-    falsos_positivos  = models.IntegerField()
-    falsos_negativos  = models.IntegerField()
-    verdaderos_positivos =  models.IntegerField()
+class Confusion_matrix(models.Model):
+    model = models.OneToOneField(Model, primary_key = True, on_delete = models.CASCADE, related_name = "confusion_matrix")
+    true_negatives = models.IntegerField()
+    false_positives  = models.IntegerField()
+    false_negatives  = models.IntegerField()
+    true_positives =  models.IntegerField()
 
 
-class Parametros(models.Model):
-    n_voltajes = models.IntegerField()
-    n_conductividades = models.IntegerField()
-    linea_inicio_vol = models.IntegerField()
-    linea_fin_vol = models.IntegerField()
-    linea_inicio_imp = models.IntegerField()
-    linea_fin_imp = models.IntegerField()
 
-    class Meta:
-        managed = False
 

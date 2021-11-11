@@ -3,30 +3,31 @@ from django.contrib.auth.signals import user_logged_out, user_logged_in
 from django.dispatch import receiver
 from django.conf import settings
 from . import models
-from .models import Modelo
-from modulo_EIT.FachadaEIT import FachadaEIT as fi
+from .models import Model
+from EIT_module.EITFacade import EITFacade as fi
 
 
 @receiver(post_save, sender = settings.AUTH_USER_MODEL)
-def crear_directorio_usuario(sender, instance, created, **kwargs):
-    """Crea un directorio de usuario cada vez que se registra un nuevo usuario."""
+def create_directory_user(sender, instance, created, **kwargs):
+    """It creates a user directory each time a new user signs up."""
+
     if not created:
         return
-    fi.crea_directorio(instance.username)
+    fi.create_directory(instance.username)
 
 
 
 
 def login_handler(sender, user, request, **kwargs):
-    """Elimina ficheros basura del directorio del usuario cada vez que éste inicia sesión."""
-    print(user.username)
-    print('logged in')
-    fi.eliminar_ficheros(user.username)
+    """Removes junk files from the user's directory each time the user logs in."""
+
+    fi.remove_files(user.username)
+
 
 user_logged_in.connect(login_handler)
 
 
 
-# @receiver(post_delete, sender = Modelo)
-# def eliminar_fichero_modelo(sender, instance, *args, **kwargs):
-#     fi.eliminar_fichero_modelo(instance.id)
+# @receiver(post_delete, sender = Model)
+# def remove_model_file(sender, instance, *args, **kwargs):
+#     fi.remove_model_file(instance.id)
