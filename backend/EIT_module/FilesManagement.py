@@ -217,7 +217,7 @@ class FilesManagement(object):
     @staticmethod
     def build_path_modC(nombre_file):
         path_generico = pathlib.Path(__file__).parent.parent
-        path_completo = os.path.join(path_generico, 'modulo_C', nombre_file)
+        path_completo = os.path.join(path_generico, 'C_module', nombre_file)
         return path_completo
 
 

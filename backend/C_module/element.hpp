@@ -16,17 +16,17 @@ namespace sp1 {
 
         Point *get_p3() const;
 
-        void get_baricentro(Point &out) const;
+        void get_barycenter(Point &out) const;
 
-        void set_permeabilidad(float p);
+        void set_permeability(float p);
 
-        float get_permeabilidad() const;
+        float get_permeability() const;
 
-        void resturarPermeabilidad();
+        void restorePermeability();
 
-        void desactivar();
+        void deactivate();
 
-        void activar();
+        void activate();
 
         bool get_state() const;
 
@@ -34,9 +34,9 @@ namespace sp1 {
         Point *p1;
         Point *p2;
         Point *p3;
-        Point baricentro;
-        float permeabilidad;
-        bool activo;
+        Point barycenter;
+        float permeability;
+        bool enable;
     };
 
     typedef std::vector<Element> Vect_Elements;

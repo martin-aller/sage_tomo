@@ -185,14 +185,13 @@ class TasksDatasets extends Component{
     }
 
 
-    format_datetime(datetime){
-        var datetime_formatdo = "";
-        datetime_formatdo = datetime.replace("T", ", ");
-        datetime_formatdo = datetime_formatdo.replace("Z", "").split(".")[0];
-        return datetime_formatdo;
+
+
+    get_date(datetime){
+        var fecha = "";
+        fecha = datetime.split("T")[0];
+        return fecha;
     }
-
-
 
     render(){
         
@@ -263,7 +262,7 @@ class TasksDatasets extends Component{
                                                     <thead>
                                                     <tr>
                                                         <th scope="col" className = "width_col2">Id </th>
-                                                        <th scope="col" className = "width_col2">Start of the task</th>
+                                                        <th scope="col" className = "width_col2">Creation date</th>
                                                         <th scope="col" className = "width_col2"></th>
                                                         <th scope="col" className = "width_col2"></th>
                                     
@@ -273,7 +272,7 @@ class TasksDatasets extends Component{
                                                     {this.state.ongoing.map((d) =>
                                                         <tr key = {d.id}>
                                                             <th scope="row">{d.id}</th>
-                                                            <td >{this.format_datetime(d.creation_date)}</td>
+                                                            <td >{this.get_date(d.creation_date)}</td>
                                                             <td >	
                                                                 <span className = "btn-link cursor_puntero" onClick = {() => this.view_dataset_details(d.id)}> View details</span>
                                                             </td>
@@ -325,7 +324,7 @@ class TasksDatasets extends Component{
                                                 <tr>
         
                                                     <th scope="col" className = "width_col2">Id </th>
-                                                    <th scope="col" className = "width_col2">Start of the task</th>
+                                                    <th scope="col" className = "width_col2">Creation date</th>
                                                     <th scope="col" className = "width_col2">Number of meshes </th>
                                                     <th scope="col" className = "width_col2"></th>
                                                     <th scope="col" className = "width_col2"></th>
@@ -337,7 +336,7 @@ class TasksDatasets extends Component{
                                                 {this.state.finished.map((d) => 
                                                         <tr key = {d.id}>
                                                             <th scope="row">{d.id}</th>
-                                                            <td>{this.format_datetime(d.creation_date)}</td>
+                                                            <td>{this.get_date(d.creation_date)}</td>
                                                             <td>{d.n_meshes}</td>
         
                                                             <td>

@@ -3,11 +3,11 @@
 namespace sp1 {
 
     Point::Point() : x(0), y(0) {
-        elementos_punto_comun = new Vect_Punt_Elements();
+        elements_punto_comun = new Vect_Punt_Elements();
     }
 
     Point::Point(float x, float y) : x(x), y(y) {
-        elementos_punto_comun = new Vect_Punt_Elements();
+        elements_punto_comun = new Vect_Punt_Elements();
     }
 
     float Point::get_x() const {
@@ -19,11 +19,11 @@ namespace sp1 {
     }
 
     void Point::addElemento(Element *e) {
-        elementos_punto_comun->push_back(e);
+        elements_punto_comun->push_back(e);
     }
 
-    Vect_Punt_Elements *Point::getElementos() {
-        return elementos_punto_comun;
+    Vect_Punt_Elements *Point::getElements() {
+        return elements_punto_comun;
     }
 
 }

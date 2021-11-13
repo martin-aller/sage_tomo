@@ -22,12 +22,12 @@ namespace sp1 {
 
         void addElemento(Element *e);
 
-        Vect_Punt_Elements *getElementos();
+        Vect_Punt_Elements *getElements();
 
     private:
         float x;
         float y;
-        Vect_Punt_Elements *elementos_punto_comun;
+        Vect_Punt_Elements *elements_punto_comun;
     };
 
     typedef std::vector<Point> Vect_Points;
