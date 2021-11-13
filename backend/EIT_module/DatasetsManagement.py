@@ -147,8 +147,8 @@ class DatasetsManagement(object):
         carpeta = {};
 
         entrada = strcat('{}meshes/', carpeta, '/');
-        salida = strcat('{}forwardModel/', carpeta, '/');
-        mkdir(salida)
+        output = strcat('{}forwardModel/', carpeta, '/');
+        mkdir(output)
 
         stim = mk_stim_patterns(16,1,'{}','{}',{},1);
 
@@ -159,7 +159,7 @@ class DatasetsManagement(object):
             img.fwd_solve.get_all_meas = 1;
             vh = fwd_solve(img);
             
-            dlmwrite([salida num2str(i) ".csv"], vh.meas', ";");
+            dlmwrite([output num2str(i) ".csv"], vh.meas', ";");
         end
         '''.format(gf.path_eidors(), str(primera_mesh), str(ultima_mesh), str(carpeta), path_dataset, path_dataset,"{ad}","{ad}","{}")
 
@@ -201,11 +201,18 @@ class DatasetsManagement(object):
     def generate_meshes(dataset, n1_r, n2_r, n3_r):
         """It calls the C++ module to generate the meshes according to the user-defined parameters."""
 
-        f = open(gf.build_path_modC("salida.txt"), "w")
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        f = open(gf.build_path_modC("output.txt"), "w")
+        f_errors = open(gf.build_path_modC("errors.txt"), "w")
         main_ejec = gf.build_path_modC("main")
-        subprocess.Popen([main_ejec,  str(n1_r), str(n2_r), str(n3_r), str(dataset.min_radius), str(dataset.max_radius), str(dataset.creator.get_username()), str(dataset.id), str(dataset.seed)], stdout = f)
+
+        commands = [main_ejec,  str(n1_r), str(n2_r), str(n3_r), str(dataset.min_radius), str(dataset.max_radius), str(dataset.creator.get_username()), str(dataset.id), str(dataset.seed)]
+        subprocess.run(commands,  stdout=f, stderr=f_errors)
+
+
 
         f.close()
+        f_errors.close()
         
         
 
@@ -247,6 +254,7 @@ class DatasetsManagement(object):
         n1_r, n2_r, n3_r = DatasetsManagement.get_n_artifacts_per_radius(n1, n2, n3, nr)
         
         DatasetsManagement.generate_meshes(dataset, n1_r, n2_r, n3_r)
+        
         DatasetsManagement.calculate_forward_model(dataset, n1_r,n2_r,n3_r)
         
         s1 = n1_r*nr - n1 #Number of surplus meshes with 1 artifact

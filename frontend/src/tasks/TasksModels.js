@@ -315,7 +315,7 @@ class TasksModels extends Component{
                                                     <th scope="col">Id </th>
                                                     <th scope="col">Type </th>
                                                     <th scope="col">Training start</th>
-                                                    <th scope="col">End of training</th>
+                                                    <th scope="col">Training end</th>
                                                     <th scope="col">Additional comments </th>
                                                     <th scope="col"></th>
                                                     <th scope="col"></th>

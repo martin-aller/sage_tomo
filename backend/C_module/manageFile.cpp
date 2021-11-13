@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
-#include "gestionarFile.hpp"
-
+#include "manageFile.hpp"
+#include <string>  
 namespace {
 
     void readDimensiones(std::ifstream &file, int &rows) {
@@ -18,7 +18,7 @@ namespace {
         file.ignore(512, '\n');
     }
 
-    void readPuntos(std::ifstream &file, sp1::Vect_Points &vp, sp1::Codigo &codigo) {
+    void readPoints(std::ifstream &file, sp1::Vect_Points &vp, sp1::Codigo &codigo) {
         float x, y;
         int rows;
 
@@ -42,7 +42,7 @@ namespace {
         }
     }
 
-    void readElementos(std::ifstream &file, sp1::Vect_Elements &ve, sp1::Vect_Points &vp, sp1::Codigo &codigo) {
+    void readElements(std::ifstream &file, sp1::Vect_Elements &ve, sp1::Vect_Points &vp, sp1::Codigo &codigo) {
         int num1, num2, num3;
         int rows;
 
@@ -70,7 +70,7 @@ namespace {
         }
     }
 
-    void readPermeabilidades(std::ifstream &file, sp1::Vect_Elements &ve, sp1::Codigo &codigo) {
+    void readPermeabilities(std::ifstream &file, sp1::Vect_Elements &ve, sp1::Codigo &codigo) {
         float temp;
         int rows;
 
@@ -81,7 +81,7 @@ namespace {
             file >> temp;
             file >> std::ws;
 
-            ve[i].set_permeabilidad(temp);
+            ve[i].set_permeability(temp);
             ++i;
         } while (i < rows && !file.fail());
 
@@ -113,13 +113,13 @@ namespace sp1 {
                 return;
             }
 
-            readPuntos(file, vp, codigo);
+            readPoints(file, vp, codigo);
             if (codigo == ERROR_FORMATO) {
                 return;
             }
 
 
-            // Leer elementos
+            // Leer elements
             do {
                 file >> std::ws;
                 getline(file, linea);
@@ -130,13 +130,13 @@ namespace sp1 {
                 return;
             }
 
-            readElementos(file, ve, vp, codigo);
+            readElements(file, ve, vp, codigo);
             if (codigo == ERROR_FORMATO) {
                 return;
             }
 
 
-            // Leer permeabilidades
+            // Leer permeabilityes
             do {
                 file >> std::ws;
                 getline(file, linea);
@@ -148,7 +148,7 @@ namespace sp1 {
                 return;
             }
 
-            readPermeabilidades(file, ve, codigo);
+            readPermeabilities(file, ve, codigo);
             if (codigo == ERROR_FORMATO) {
                 return;
             }
@@ -195,7 +195,7 @@ namespace sp1 {
             }
 
             for (int i = 0; i < ve.size(); i++) {
-                nuevo << ve[i].get_permeabilidad() << std::endl;
+                nuevo << ve[i].get_permeability() << std::endl;
             }
 
             codigo = OK;

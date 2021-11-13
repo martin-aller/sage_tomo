@@ -1,5 +1,5 @@
 #include "element.hpp"
-
+#include <iostream>
 namespace {
 
     void calcularBaricentro(const sp1::Point *p1, const sp1::Point *p2, const sp1::Point *p3, sp1::Point &b) {
@@ -15,8 +15,8 @@ namespace {
 namespace sp1 {
 
     Element::Element(Point *point1, Point *point2, Point *point3) : p1(point1), p2(point2), p3(point3),
-    permeabilidad(1), activo(true) {
-        calcularBaricentro(p1, p2, p3, baricentro);
+    permeability(1), enable(true) {
+        calcularBaricentro(p1, p2, p3, barycenter);
     }
 
     Point *Element::get_p1() const {
@@ -31,35 +31,39 @@ namespace sp1 {
         return p3;
     }
 
-    void Element::get_baricentro(Point &out) const {
-        out = baricentro;
+    void Element::get_barycenter(Point &out) const {
+        out = barycenter;
     }
 
-    void Element::set_permeabilidad(float p) {
-        if (p > permeabilidad) {
-            permeabilidad = p;
-            desactivar();
+    void Element::set_permeability(float p) {
+        using namespace std;
+                
+        if (p > permeability) {
+            permeability = p;
+            deactivate();
+            
         }
+        
     }
 
-    float Element::get_permeabilidad() const {
-        return permeabilidad;
+    float Element::get_permeability() const {
+        return permeability;
     }
 
-    void Element::resturarPermeabilidad() {
-        permeabilidad = 1.0;
+    void Element::restorePermeability() {
+        permeability = 1.0;
     }
 
-    void Element::desactivar() {
-        activo = false;
+    void Element::deactivate() {
+        enable = false;
     }
 
-    void Element::activar() {
-        activo = true;
+    void Element::activate() {
+        enable = true;
     }
 
     bool Element::get_state() const {
-        return activo;
+        return enable;
     }
 
 }

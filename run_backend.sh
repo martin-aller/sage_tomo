@@ -12,7 +12,9 @@ if [ $# -gt 1 ]
 		cd $2;
 		python manage.py runserver &
 		backend_pid=$!
+		#celery worker -A tomo_backend --pool=solo --loglevel=info &
 		celery worker -A tomo_backend --pool=solo --loglevel=info &
+
 		celery_pid=$!
 
 		#We write process PIDs to temporary files
