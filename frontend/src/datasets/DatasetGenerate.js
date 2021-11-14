@@ -90,19 +90,19 @@ class DatasetGenerate extends Component{
                                             .positive("It must be a positive number.")
                                             .integer("It must be an integer.")
                                             .min(12, 'The minimum number of meshes with an artifact is 12.')
-                                            .max(10000, 'No more than 10000 meshes with one artifact can be generated.')
+                                            .max(5600, 'No more than 5600 meshes with one artifact can be generated.')
                                             .required('Required field.'),
                                         n_meshes_2: Yup.number()
                                             .positive("It must be a positive number.")
                                             .integer("It must be an integer.")
                                             .min(12, 'The minimum number of meshes with two artifacts is 12.')
-                                            .max(10000, 'No more than 10000 meshes with two artifacts can be generated.')
+                                            .max(2800, 'No more than 2800 meshes with two artifacts can be generated.')
                                             .required('Required field.'),
                                         n_meshes_3: Yup.number()
                                             .positive("It must be a positive number.")
                                             .integer("It must be an integer.")
                                             .min(12, 'The minimum number of meshes with three artifacts is 12.')
-                                            .max(10000, 'No more than 10000 meshes with three artifacts can be generated.')
+                                            .max(1820, 'No more than 1820 meshes with three artifacts can be generated.')
                                             .required('Required field.'),
                                         min_radius: Yup.number()
                                             .positive("It must be a positive number.")

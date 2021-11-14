@@ -461,7 +461,7 @@ def compare_models(request):
         postprocessing = request.query_params.get('postprocessing')
         username = request.user.get_username()
 
-        if postprocessing == "true":
+        if postprocessing.casefold() == "true".casefold():
             postprocessing = True
         else:
             postprocessing = False
@@ -567,7 +567,7 @@ def reconstruct_img(request):
         model = int(request.query_params.get('model'))
         postprocessing = request.query_params.get('postprocessing')
 
-        if postprocessing == "true":
+        if postprocessing.casefold() == "true".casefold():
             postprocessing = True
         else:
             postprocessing = False
@@ -648,7 +648,7 @@ def reconstruct_img_multiple(request):
         postprocessing = request.query_params.get('postprocessing')
         username = request.user.get_username()
 
-        if postprocessing == "true":
+        if postprocessing.casefold() == "true".casefold():
             postprocessing = True
         else:
             postprocessing = False

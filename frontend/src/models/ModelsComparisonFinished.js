@@ -43,7 +43,7 @@ class ModelsComparisonFinished extends Component{
         var width;
 
         if(n_models === 4){
-            type_container = "container-fluid card";
+            type_container = "container-fluid card caja";
         }
         else{
             type_container = "container card caja";
@@ -277,14 +277,14 @@ class ModelsComparisonFinished extends Component{
                              {this.props.location.state.metrics_list.includes("accuracy") &&
                                 <div>
                                 <div className = {this.state.type_container}>
-                                        <h5 className="card-title text-center">Confusion matrixes</h5>
+                                        <h5 className="card-title text-center padding_top_2rem"><b>Confusion matrixes</b></h5>
                                         <div className="card-body">
                                             <div className="row" >
                                                 {Object.keys(this.state.comparison.matrices_confusion).map((id_model) =>
                                                     <div className={"col-md-" + this.state.column_width + " width_14"} key = {id_model}>
         
                                                         <table className = "table table-bordered">
-                                                            <caption className = "titulo_arriba"><b>Model {id_model}</b></caption>
+                                                            <caption className = "titulo_arriba"><b>Model {id_model} ({this.state.comparison.types[id_model]})</b></caption>
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col"></th>
@@ -318,7 +318,8 @@ class ModelsComparisonFinished extends Component{
                             }
         
                             <div className = "container card caja">
-                                <h5 className="card-title text-center"> Reconstruction of random image from the dataset {this.props.location.state.dataset}: mesh {this.state.mesh_index}</h5>
+                                
+                                <h5 className="card-title text-center padding_top_2rem"> Reconstruction of <b>random image</b> from the dataset {this.props.location.state.dataset}: mesh {this.state.mesh_index}</h5>
                                 <div className="card-body">
                                     <div className="row" >
                                         <div className="col-md-4"> </div>
@@ -336,7 +337,7 @@ class ModelsComparisonFinished extends Component{
                                         {this.get_id_models(this.props.location.state.models_list).map((id_model, index) =>
                                             <div className={"card col-md-" + this.state.column_width + " caja width_14"} key = {id_model}>
                                                 <div className = "container">
-                                                    <p className="card-title text-center"><b>Prediction of the model {id_model}</b></p>
+                                                    <p className="card-title text-center"><b>Prediction of the model {id_model} ({this.state.comparison.types[id_model]})</b></p>
                                                     <img className="card-img-top border border-dark img_rec text-center" src={"http://" + this.state.urls_imgs["url" + (index + 1)]} alt="Model reconstruction"/>
                                                 </div>
                                             </div>

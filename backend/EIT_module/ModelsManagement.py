@@ -76,7 +76,7 @@ class ModelsManagement:
             model_entrenado.save_weights(path_definitivo_h5)
 
         else:
-            path_model = gf.build_path_model(generic_model.id) + ".joblib" #REVISAR
+            path_model = gf.build_path_model(generic_model.id) + ".joblib"
             joblib.dump(model_entrenado, open(path_model, 'wb'))
 
 
@@ -198,7 +198,7 @@ class ModelsManagement:
         
         # ----------Model definition----------
         
-        model = RandomForestRegressor(n_estimators = model_ad.n_estimators, random_state=0)
+        model = RandomForestRegressor(n_estimators = model_ad.n_estimators, random_state=0 )
 
         # ----------Model training----------
         
@@ -231,6 +231,7 @@ class ModelsManagement:
         """It trains and stores a SVM"""
 
         generic_model = Model.objects.get(id = id)
+        model_svm = SVM_model.objects.get(id_model = id)
 
         train_input, train_output, test_input, test_output, _, _ = generic_model.dataset.get_sets()
 
@@ -242,7 +243,8 @@ class ModelsManagement:
 
         #Model definition
         
-        model = svm.SVR(kernel='rbf', degree = 3, gamma = "auto", coef0 = 100, tol=7, C = 1200000.0, epsilon = 0.1) #x,y = 100 ---> MSE = 1780.18 #x,y = 1000 ---> MSE = 1098.85
+        model = svm.SVR(kernel=model_svm.kernel, degree = model_svm.degree, gamma = model_svm.gamma, 
+                        coef0 = model_svm.coef0, tol=model_svm.tol, C = model_svm.c, epsilon = model_svm.epsilon) 
 
         wrapper = MultiOutputRegressor(model)
 
@@ -293,9 +295,10 @@ class ModelsManagement:
             model_loaddo = ModelsManagement.load_model(id_model, username)
             dict_loaddos[id_model] = model_loaddo
             pred_output = model_loaddo.predict(test_input)
+
             if postprocessing_flag:
-                
-                pred_output = pro.postprocessing(pred_output, 15)
+                threshold = Model.objects.get(id = id_model).postprocessing_threshold
+                pred_output = pro.postprocessing(pred_output, threshold)
 
             #Calculate values for the selected metrics
             

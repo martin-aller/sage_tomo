@@ -383,12 +383,12 @@ class TrainDNN extends Component{
                                                             <div className="dropdown-menu" id = "dropdown-menu-metrics" aria-labelledby="dropdownMenu2">
                                                                 <div className="checkbox">
                                                                     <label>
-                                                                        <Field type="checkbox" name = "metrics" value = "mse" checked onclick="return false;"/> Mean Squared Error (required)
+                                                                        <Field type="checkbox" name = "metrics" value = "mse" checked onClick={() => {return false}}/> Mean Squared Error (required)
                                                                     </label>
                                                                 </div>
                                                                 <div className="checkbox">
                                                                     <label>
-                                                                        <Field type="checkbox" name = "metrics" value = "acierto" checked onclick="return false;"/> Accuracy (required)
+                                                                        <Field type="checkbox" name = "metrics" value = "acierto" checked onClick={() => {return false}}/> Accuracy (required)
                                                                     </label>
                                                                 </div>
                                                                 <div className="checkbox">
@@ -421,7 +421,7 @@ class TrainDNN extends Component{
                                                 <div className="form-group row">
                                                     <label htmlFor="comentarios" className="col-sm-6 col-form-label"> Additional comments: </label>
                                                     <div className="col-sm-6">
-                                                        <Field component = "textask" className="form-control" name = "comentarios" />
+                                                        <Field type = "text" className="form-control" name = "comentarios" />
                                                         <span className = "error1"><ErrorMessage  name="comentarios" /> </span>
                                                     </div>
                                                 </div>
