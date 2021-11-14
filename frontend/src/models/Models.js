@@ -20,8 +20,8 @@ class Models extends Component{
             list_selected_models: [],
             loading: true,
             id_details: null,
-            type_model: null,
-            type_search: null,
+            type_model: "todos",
+            type_search: "todos",
             showModal: false,
             id_remove: null,
             n_sel: 0,
@@ -280,7 +280,7 @@ class Models extends Component{
                                                                 <div className="col-sm-8">
                                                                     <select id="type" name = "type" className="form-control"
                                                                      value={this.state.type_model} onChange={this.handleChangeModelType} >
-                                                                        <option selected value = "todos"> All the models</option>
+                                                                        <option value = "todos"> All the models</option>
                                                                         <option value = "DNN"> Neural Networks </option>
                                                                         <option value = "RF"> Random Forests </option>
                                                                         <option value = "SVM"> Support vector machines </option>

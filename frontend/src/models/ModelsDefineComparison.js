@@ -35,13 +35,14 @@ class ModelsDefineComparison extends Component{
     }
 
 
-    handleChangePostprocessing(event){
-        if(this.state.postprocessing === "True"){
-            this.setState({postprocessing:"False"});
-        }else if(this.state.postprocessing === "False"){
-            this.setState({postprocessing:"True"});
-        }
-    }
+    handleChangePostprocessing = e => {
+        const { name, value } = e.target;
+    
+        this.setState({
+          [name]: value
+        });
+        console.log("POST:", this.state.postprocessing)
+      };
 
 
     componentDidMount(){
@@ -246,8 +247,8 @@ class ModelsDefineComparison extends Component{
         
                                         <div className="col-md-3">
                                             <br/><br/>
-                                                    <label>Yes <input type="radio" name = "postprocessing" value="True" className = "width_3" onChange = {this.handleChangePostprocessing}  defaultChecked/> </label>
-                                                    <label>No<input type="radio" name = "postprocessing" value="False" className = "width_3" onChange = {this.handleChangePostprocessing}  />  </label>
+                                                    <label>Yes <input type="radio" name = "postprocessing" value="True" className = "width_3"  onChange={this.handleChangePostprocessing} defaultChecked/> </label>
+                                                    <label>No<input type="radio" name = "postprocessing" value="False" className = "width_3" onChange={this.handleChangePostprocessing} />  </label>
                                             <br/>
                                         </div>
                                     </div>

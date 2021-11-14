@@ -132,6 +132,7 @@ class Processing(object):
         return numpy.where(pred_output <= threshold, 1, pred_output)
 
 
+
     @staticmethod
     def postprocessing_individual(pred_output, threshold):
         """Unlike the previous method, the first argument of this method is a one-dimensional list."""

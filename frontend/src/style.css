@@ -372,6 +372,10 @@ table.table-bordered > tbody > tr > th{
     caption-side: top;
 }
 
+.padding_top_2rem{
+    padding-top: 2rem;
+}
+
 /*Modales*/
 .letras_blancas{
     color: white;

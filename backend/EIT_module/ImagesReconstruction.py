@@ -210,6 +210,7 @@ class RecImg(object):
             
             m = gm.load_model(idm, username)
             predicted_conductivities = RecImg.predict_conductivity_loaded_model(voltages, m)
+            
             if(postprocessing_flag):
                 threshold = Model.objects.get(id = idm).postprocessing_threshold
                 predicted_conductivities = pro.postprocessing_individual(predicted_conductivities, threshold)
