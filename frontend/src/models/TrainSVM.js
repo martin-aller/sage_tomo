@@ -131,7 +131,7 @@ class TrainSVM extends Component{
                                         
                                     <Formik
                                         initialValues={{kernel : "rbf", degree : 3, gamma : "auto", coef0: 100, tol: 7, c : 1200000,
-                                                        epsilon: 0.1, metrics: ['mse', 'acierto'], visibilidad: 'True', comentarios: ''}}
+                                                        epsilon: 0.1, metrics: ['mse', 'accuracy'], visibilidad: 'True', comentarios: ''}}
                                         validationSchema={Yup.object({
 
                                         degree: Yup.number()
@@ -295,7 +295,7 @@ class TrainSVM extends Component{
                                                                 </div>
                                                                 <div className="checkbox">
                                                                     <label>
-                                                                        <Field type="checkbox" name = "metrics" value = "acierto" checked onClick={() => {return false}}/> Accuracy (required)
+                                                                        <Field type="checkbox" name = "metrics" value = "accuracy" checked onClick={() => {return false}}/> Accuracy (required)
                                                                     </label>
                                                                 </div>
                                                                 <div className="checkbox">

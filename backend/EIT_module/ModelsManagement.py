@@ -136,8 +136,8 @@ class ModelsManagement:
         metrics_list_DAO = Metric.objects.filter(id_model = id).order_by("id")
         metrics_list = pro.get_values(metrics_list_DAO.values("name"))
         
-        if "acierto" in metrics_list:
-            metrics_list.remove("acierto")
+        if "accuracy" in metrics_list:
+            metrics_list.remove("accuracy")
 
         # ----------Compile model----------
         model_tf.compile(optimizer = optimizers.RMSprop(lr = model_ann.learning_rate,

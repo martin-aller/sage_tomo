@@ -217,7 +217,7 @@ class ModelDetails extends Component{
                                                                           {this.state.generic_model.metrics.map((m) =>
                                                                                 <li key = {m.name}> 
                                                                                     <b>{m.name}</b> : {this.round_num(m.value)}
-                                                                                        {m.name === "acierto" &&
+                                                                                        {m.name === "accuracy" &&
                                                                                             <div className = "en_linea">
                                                                                                 <span>%</span>
                                                                                                 <p className ="btn btn-dark btn-sm" onClick = {() => this.setModal(true)}> View confusion matrix</p>                                                                   
@@ -271,7 +271,7 @@ class ModelDetails extends Component{
                                                                     {this.state.generic_model.metrics.map((m) =>
                                                                             <li key = {m.name}> 
                                                                                 <b>{m.name}</b> : {this.round_num(m.value)}
-                                                                                    {m.name === "acierto" &&
+                                                                                    {m.name === "accuracy" &&
                                                                                         <div className = "en_linea">
                                                                                             <span>%</span>
                                                                                             <p className ="btn btn-dark btn-sm" onClick = {() => this.setModal(true)}> View confusion matrix</p>                                                                   
@@ -338,7 +338,7 @@ class ModelDetails extends Component{
                                                                             {this.state.generic_model.metrics.map((m) =>
                                                                                     <li key = {m.name}> 
                                                                                         <b>{m.name}</b> : {this.round_num(m.value)}
-                                                                                            {m.name === "acierto" &&
+                                                                                            {m.name === "accuracy" &&
                                                                                                 <div className = "en_linea">
                                                                                                     <span>%</span>
                                                                                                     <p className ="btn btn-dark btn-sm" onClick = {() => this.setModal(true)}> View confusion matrix</p>                                                                   
