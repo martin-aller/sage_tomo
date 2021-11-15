@@ -154,7 +154,7 @@ class TrainDNN extends Component{
                                         initialValues={{n_hidden_layers : 1, neurons_per_layer : [10], f_activacion_interna: 'relu', f_activacion_externa: 'relu', f_error: 'mse', 
                                             n_epochs : 20, 
                                              training_batch_size : '', batch_size: 64,learning_rate: 0.001,momentum: 0.9,
-                                            metrics: ['mse', 'acierto'], visibilidad: 'True', comentarios: ''}}
+                                            metrics: ['mse', 'accuracy'], visibilidad: 'True', comentarios: ''}}
                                         validationSchema={Yup.object({
         
                                         neurons_per_layer: Yup.array()
@@ -388,7 +388,7 @@ class TrainDNN extends Component{
                                                                 </div>
                                                                 <div className="checkbox">
                                                                     <label>
-                                                                        <Field type="checkbox" name = "metrics" value = "acierto" checked onClick={() => {return false}}/> Accuracy (required)
+                                                                        <Field type="checkbox" name = "metrics" value = "accuracy" checked onClick={() => {return false}}/> Accuracy (required)
                                                                     </label>
                                                                 </div>
                                                                 <div className="checkbox">

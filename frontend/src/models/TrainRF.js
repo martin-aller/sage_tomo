@@ -134,7 +134,7 @@ class TrainRF extends Component{
                                         
                                     <Formik
                                         initialValues={{n_estimators : 10, max_depth : 100000, min_split: 0, min_leaf: 0,
-                                                        metrics: ['mse', 'acierto'], visibilidad: 'True', comentarios: ''}}
+                                                        metrics: ['mse', 'accuracy'], visibilidad: 'True', comentarios: ''}}
                                         validationSchema={Yup.object({
         
                                         n_estimators: Yup.number()
@@ -261,7 +261,7 @@ class TrainRF extends Component{
                                                                 </div>
                                                                 <div className="checkbox">
                                                                     <label>
-                                                                        <Field type="checkbox" name = "metrics" value = "acierto" checked onClick={() => {return false}}/> Accuracy (required)
+                                                                        <Field type="checkbox" name = "metrics" value = "accuracy" checked onClick={() => {return false}}/> Accuracy (required)
                                                                     </label>
                                                                 </div>
                                                                 <div className="checkbox">

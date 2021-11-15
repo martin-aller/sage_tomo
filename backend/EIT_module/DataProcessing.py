@@ -88,7 +88,7 @@ class Processing(object):
                 m.value = round(metrics.mean_absolute_error(test_output, pred_output), 4)
             elif(m.name.casefold() == "msle".casefold() or m.name == "mean_squared_logarithmic_error"):
                 m.value = round(metrics.mean_squared_log_error(test_output, abs(pred_output)), 4)
-            elif(m.name.casefold() == "acierto".casefold()):
+            elif(m.name.casefold() == "accuracy".casefold()):
                 percentage,mc = Processing.accuracy_percentage(id_model, test_output, pred_output)
                 m.value = round(percentage, 4)
                 mc.save()
@@ -118,8 +118,8 @@ class Processing(object):
         list_test = numpy.where(test_output == 1, 0, 1)
         list_pred = numpy.where(pred_output == 1, 0, 1)
     
-        aciertos = numpy.sum(list_test == list_pred)
-        percentage = (aciertos/(n*m))*100
+        accuracys = numpy.sum(list_test == list_pred)
+        percentage = (accuracys/(n*m))*100
         mc = Processing.confusion_matrix(id_model, list_test, list_pred)
         return percentage, mc
 
