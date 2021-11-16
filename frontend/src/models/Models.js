@@ -224,7 +224,7 @@ class Models extends Component{
 
         if (this.state.toRemovedModel === true) {
             return <Redirect push to={{
-                pathname: '/object_removedo',
+                pathname: '/object_removed',
                 state: { type_object: "model",
                          id: this.state.id_remove,
                          token: this.props.location.state.token, url_base: this.props.location.state.url_base
@@ -241,7 +241,7 @@ class Models extends Component{
 
         if (this.state.toDefineComparation === true) {
             return <Redirect push to={{
-                pathname: '/models_definir_comparison',
+                pathname: '/models_define_comparison',
                 state: { models_list: this.state.list_selected_models, 
                          token: this.props.location.state.token, url_base: this.props.location.state.url_base}
             }}/>
@@ -253,7 +253,7 @@ class Models extends Component{
             <div>
                 {this.props.location.state !== undefined && "token" in  this.props.location.state ? (
                     <div>
-                        <Header con_cuenta = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
+                        <Header with_account = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                         <GoBackButton/>
         
                         

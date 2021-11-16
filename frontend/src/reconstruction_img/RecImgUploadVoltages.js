@@ -33,7 +33,7 @@ class RecImgUploadVoltages extends Component{
         this.setState({file: e.target.files[0]});
     }
 
-    access_prediccion_realizada(){
+    access_prediction_performed(){
         this.setState({error_selection: false, error_structure:false});
         if(this.state.file === null){
             this.setState({error_selection: true});
@@ -48,7 +48,7 @@ class RecImgUploadVoltages extends Component{
         
         if (this.state.toPredictionMade === true) {
             return <Redirect push to={{
-                pathname: "/rec_img_prediccion_realizada",
+                pathname: "/rec_img_prediction_performed",
                 state: { file: this.state.file, id_model: this.props.location.state.id_model, token: this.props.location.state.token, url_base: this.props.location.state.url_base}
             }}/>
         }
@@ -57,7 +57,7 @@ class RecImgUploadVoltages extends Component{
             <div>
                 {this.props.location.state !== undefined && "token" in  this.props.location.state ? (
                     <div>
-                        <Header con_cuenta = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
+                        <Header with_account = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                         <GoBackButton/>
                         <div className = "container">
                             <div className="card caja">
@@ -96,7 +96,7 @@ class RecImgUploadVoltages extends Component{
         
                                             <div className="form-group row text-center">
                                                 <div className = "col-md-12">
-                                                    <input type="button"  className="btn-lg btn-dark  mb-2" onClick={() => this.access_prediccion_realizada()} id = "btn_predict" value = "Make predictions"/> 
+                                                    <input type="button"  className="btn-lg btn-dark  mb-2" onClick={() => this.access_prediction_performed()} id = "btn_predict" value = "Make predictions"/> 
                                                         
                                                 </div>
                                             </div>

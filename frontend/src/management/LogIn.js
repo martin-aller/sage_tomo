@@ -56,7 +56,7 @@ class LogIn extends Component{
 
         if (this.state.toSignUp === true) {
             return <Redirect push to={{
-                pathname: '/registro',
+                pathname: '/signup',
                 state: { url_base: this.state.url_base}
             }}/>        
         }
@@ -64,7 +64,7 @@ class LogIn extends Component{
 
         if (this.state.toHome === true) {
             return <Redirect push to={{
-                pathname: '/principal',
+                pathname: '/home',
                 state: { token: this.state.token, url_base: this.state.url_base}
             }}/>        
         }
@@ -73,7 +73,7 @@ class LogIn extends Component{
 
         return(
             <div>
-                <Header con_cuenta = {false} help_message = {this.state.help_message} url_base = {this.state.url_base}/>
+                <Header with_account = {false} help_message = {this.state.help_message} url_base = {this.state.url_base}/>
                 <div className="container margin_bottom_1">
                     <div className = "row text-center">
                         <div className="col-md-4"></div>

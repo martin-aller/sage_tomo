@@ -130,7 +130,7 @@ class ModelsDefineComparison extends Component{
         if (this.state.toComparisonFinished === true) {
             
             return <Redirect push to={{
-                pathname: '/models_comparison_realizada',
+                pathname: '/models_comparison_performed',
                 state: { dataset: this.state.id_dataset,
                          models_list: this.state.models_list,
                          metrics_list: this.state.metrics_list,
@@ -151,7 +151,7 @@ class ModelsDefineComparison extends Component{
             <div>
                 {this.props.location.state !== undefined && "token" in  this.props.location.state ? (
                     <div>
-                        <Header con_cuenta = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
+                        <Header with_account = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                         <GoBackButton/>
         
                         <h3 className = "text-center"> Models to compare: </h3>
@@ -322,7 +322,7 @@ class ModelsDefineComparison extends Component{
                                             </div>
                                             <div className = "row">
                                                 <div className="col-md-12 text-center">
-                                                    <button type = "submit" className = "btn-lg btn-dark" id = "btn_definir_comparison" >
+                                                    <button type = "submit" className = "btn-lg btn-dark" id = "btn_define_comparison" >
                                                         Compare models
                                                     </button>
                                                 </div>

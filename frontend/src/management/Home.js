@@ -75,7 +75,7 @@ class  Home extends Component{
             <div>
                 {this.props.location.state !== undefined && "token" in  this.props.location.state ? (
                     <div>
-                    <Header con_cuenta = {true} principal = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
+                    <Header with_account = {true} principal = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                         <div className ="container principal_container" >
                             <div className ="row margin_bottom_5">
                                 <div className ="card col-md-3 caja padding_top_1">

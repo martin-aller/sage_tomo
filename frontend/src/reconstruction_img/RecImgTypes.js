@@ -33,7 +33,7 @@ class RecImgTypes extends Component{
 
         if (this.state.toConductivitiesPrediction === true) {
             return <Redirect push to={{
-                pathname: '/rec_img_subir_voltages',
+                pathname: '/rec_img_upload_voltages',
                 state: { error_structure: false,
                          id_model: this.props.location.state.id_model, token: this.props.location.state.token, url_base: this.props.location.state.url_base}
             }}/>
@@ -45,7 +45,7 @@ class RecImgTypes extends Component{
             <div>
                 {this.props.location.state !== undefined && "token" in  this.props.location.state ? (
                     <div>
-                        <Header con_cuenta = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
+                        <Header with_account = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                         <GoBackButton/>
         
                         <h5 className = "text-center" > Select what to do: </h5>

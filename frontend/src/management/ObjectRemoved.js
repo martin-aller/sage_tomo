@@ -58,7 +58,7 @@ class ObjectRemoved extends Component{
             <div>
                 {this.props.location.state !== undefined && "token" in  this.props.location.state ? (
                     <div>
-                        <Header con_cuenta = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
+                        <Header with_account = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                             {this.props.location.state.type_object === "model" ? (
                                 <div className="card bg-light mx-auto mb-3 caja max_width_50">
                                     <div className="card-header">Model removed</div>

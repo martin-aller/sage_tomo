@@ -52,15 +52,15 @@ class Routes extends Component{
                 <Route  path="/rec_img_types" render={(props) => <RecImgTypes {...props}/>}/>
                 <Route  path="/rec_img_meshes_datasets"  render={(props) => <RecImgMeshesDatasets {...props}/>} />
                 <Route  path="/rec_img_reconstructed" render={(props) => <RecImgReconstructed {...props}/>}/>
-                <Route  path="/rec_img_subir_voltages" render={(props) => <RecImgUploadVoltages {...props}/>}/>
-                <Route  path="/rec_img_prediccion_realizada" render={(props) => <RecImgPredictionMade {...props}/>}/>
+                <Route  path="/rec_img_upload_voltages" render={(props) => <RecImgUploadVoltages {...props}/>}/>
+                <Route  path="/rec_img_prediction_performed" render={(props) => <RecImgPredictionMade {...props}/>}/>
 
 
                 <Route  path="/models/:id" render={(props) => <ModelDetails {...props}/>} />
                 <Route  path="/models" render={(props) => <Models {...props}/>} />
                 <Route  path="/models_rec_img" render={(props) => <ModelsRecImg {...props}/>} />
-                <Route  path="/models_definir_comparison" render={(props) => <ModelsDefineComparison {...props}/>}/>
-                <Route  path="/models_comparison_realizada" render={(props) => <ModelsComparisonFinished {...props}/>}/>
+                <Route  path="/models_define_comparison" render={(props) => <ModelsDefineComparison {...props}/>}/>
+                <Route  path="/models_comparison_performed" render={(props) => <ModelsComparisonFinished {...props}/>}/>
 
 
                 <Route  path="/types_models" render={(props) => <ModelsTypes {...props}/>} />
@@ -72,20 +72,20 @@ class Routes extends Component{
                 <Route  path="/datasets/:id" render={(props) => <DatasetDetails {...props}/>} />
                 <Route  path="/datasets" render={(props) => <Datasets {...props}/>} />
                 <Route  path="/datasets_training" render={(props) => <DatasetsTraining {...props}/>} />
-                <Route  path="/dataset_generar" render={(props) => <DatasetGenerate {...props}/>} />
-                <Route  path="/dataset_subir" render={(props) => <DatasetUpload {...props}/>} />
+                <Route  path="/dataset_generate" render={(props) => <DatasetGenerate {...props}/>} />
+                <Route  path="/dataset_upload" render={(props) => <DatasetUpload {...props}/>} />
                 <Route  path="/dataset_download/:id" render={(props) => <DatasetDownload {...props}/>} />
                 
-                {/* <Route  path="/registro" component = {Registro}/> */}
-                <Route  path="/registro" render={(props) => <SignUp {...props}/>}/>
-                <Route  path="/success_registro" render={(props) => <SuccessSignUp {...props}/>} />
-                <Route  path="/principal" render={(props) => <Home {...props}/>}/>
-                <Route  path="/cuenta" render={(props) => <Account {...props}/>}/>
+                {/* <Route  path="/signup" component = {Registro}/> */}
+                <Route  path="/signup" render={(props) => <SignUp {...props}/>}/>
+                <Route  path="/success_signup" render={(props) => <SuccessSignUp {...props}/>} />
+                <Route  path="/home" render={(props) => <Home {...props}/>}/>
+                <Route  path="/account" render={(props) => <Account {...props}/>}/>
 
 
-                <Route  path="/object_removedo" render={(props) => <ObjectRemoved {...props}/>}/>
-                <Route  path="/object_descartado" render={(props) => <ObjectDiscarded {...props}/>}/>
-                <Route  path="/sin_model" render={(props) => <NoModel {...props}/>}/>
+                <Route  path="/object_removed" render={(props) => <ObjectRemoved {...props}/>}/>
+                <Route  path="/object_discarded" render={(props) => <ObjectDiscarded {...props}/>}/>
+                <Route  path="/without_model" render={(props) => <NoModel {...props}/>}/>
 
 
                 <Route  path="/tasks" render={(props) => <Tasks {...props}/>} />
