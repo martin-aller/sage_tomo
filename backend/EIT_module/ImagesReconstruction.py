@@ -21,10 +21,10 @@ class RecImg(object):
         loaded_model = gm.load_model(id_model, username)
         linea1_voltages = [float(v) for v in voltages]
 
-        prediccion = loaded_model.predict(numpy.array([linea1_voltages]))
-        prediccion = prediccion.tolist()
+        prediction = loaded_model.predict(numpy.array([linea1_voltages]))
+        prediction = prediction.tolist()
 
-        return prediccion
+        return prediction
   
 
 
@@ -34,10 +34,10 @@ class RecImg(object):
         It returns a list of conductivities."""
 
         linea1_voltages = [float(v) for v in voltages]
-        prediccion = model_loaddo.predict(numpy.array([linea1_voltages]))
-        prediccion = prediccion.tolist()
+        prediction = model_loaddo.predict(numpy.array([linea1_voltages]))
+        prediction = prediction.tolist()
 
-        return prediccion
+        return prediction
 
 
 

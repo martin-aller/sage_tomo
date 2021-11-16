@@ -35,7 +35,7 @@ class RecImgPredictionMade extends Component{
     }
 
     componentDidMount(){
-        this.subir_voltages();
+        this.upload_voltages();
     }
 
     
@@ -57,7 +57,7 @@ class RecImgPredictionMade extends Component{
     }
 
 
-    subir_voltages(){
+    upload_voltages(){
         
         const config = {
             headers: {
@@ -133,7 +133,7 @@ class RecImgPredictionMade extends Component{
 
         if (this.state.error_model === true) {
             return <Redirect push to={{
-                pathname: '/sin_model',
+                pathname: '/without_model',
                 state: { token: this.props.location.state.token, 
                         url_base: this.props.location.state.url_base,
                         message: message_model}
@@ -143,7 +143,7 @@ class RecImgPredictionMade extends Component{
         if (this.state.aSubirVoltages === true) {
             
             return <Redirect push to={{
-                pathname: '/rec_img_subir_voltages',
+                pathname: '/rec_img_upload_voltages',
                 state: { id_model: this.props.location.state.id_model,
                          error_structure: true,
                          token: this.props.location.state.token, url_base: this.props.location.state.url_base}
@@ -157,7 +157,7 @@ class RecImgPredictionMade extends Component{
             <div>
                 {this.props.location.state !== undefined && "token" in  this.props.location.state ? (
                     <div>
-                        <Header con_cuenta = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
+                        <Header with_account = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                         <GoBackButton/>
         
         

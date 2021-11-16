@@ -106,15 +106,15 @@ table.table-bordered > tbody > tr > th{
 
 
 /*Cabecera*/
-.cabecera_sin_cuenta1{
+.header_without_account1{
     margin-left:1.1rem;
 }
 
-.cabecera_sin_cuenta2{
+.header_without_account2{
     margin-right: 0.2rem;
 }
 
-.cabecera_con_cuenta{
+.cabecera_with_account{
     padding-left:0.3rem; 
     padding-top:0.1rem; 
     padding-bottom:0.1rem;
@@ -235,7 +235,7 @@ table.table-bordered > tbody > tr > th{
 }
 
 
-/*Objeto removedo*/
+/*Objeto removed*/
 
 .width_15{
     width: 15rem;

@@ -193,7 +193,7 @@ class TasksModels extends Component{
 
         if (this.state.aModelDescartado === true) {
             return <Redirect push to={{
-                pathname: '/object_descartado',
+                pathname: '/object_discarded',
                 state: { type_object: "model", id: this.state.id_discard, token: this.props.location.state.token, url_base: this.props.location.state.url_base}
             }}/>
         }
@@ -202,7 +202,7 @@ class TasksModels extends Component{
             <div>
                 {this.props.location.state !== undefined && "token" in  this.props.location.state ? (
                     <div>
-                        <Header con_cuenta = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
+                        <Header with_account = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                         <div className = "fixed-top top_5_5" >
                             <GoBackButton sin_espaciado = {true}/>
                         </div>

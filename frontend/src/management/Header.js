@@ -78,7 +78,7 @@ class Header extends Component{
     render(){
         if (this.state.toAccount === true) {
             return <Redirect push to={{
-                pathname: '/cuenta',
+                pathname: '/account',
                 state: { firstname: this.state.firstname,
                          lastname: this.state.lastname,
                          email: this.state.email,
@@ -98,21 +98,21 @@ class Header extends Component{
 
         if (this.state.toHome === true) {
             return <Redirect push to={{
-                pathname: '/principal',
+                pathname: '/home',
                 state: { token: this.props.token, url_base: this.props.url_base}
             }}/>        
         }
 
 
 
-        const con_cuenta = this.props.con_cuenta;
+        const with_account = this.props.with_account;
         const principal = this.props.principal;
         return(
             <div>
                 
-                {con_cuenta === true ?( //HEADER WITH ACCOUNT
+                {with_account === true ?( //HEADER WITH ACCOUNT
                     <div >
-                        <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top border border-secondary cabecera_con_cuenta">
+                        <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top border border-secondary cabecera_with_account">
                             <div className="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2 " >
                                 <div className="navbar-nav mr-auto" >
                                     <div className="nav-item">
@@ -158,7 +158,7 @@ class Header extends Component{
 
                             </div>
                             <div className="mx-auto order-0" >
-                                <div className="navbar-brand cabecera_sin_cuenta1"  ><span className="mb-0 h1">SageTomo</span></div>
+                                <div className="navbar-brand header_without_account1"  ><span className="mb-0 h1">SageTomo</span></div>
                             </div>
                             <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
                                 <div className="navbar-nav ml-auto">

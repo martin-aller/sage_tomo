@@ -207,7 +207,7 @@ class ModelsComparisonFinished extends Component{
         var message_model = "Some of the selected models is not in the system anymore.";
         if (this.state.error_model === true) {
             return <Redirect push to={{
-                pathname: '/sin_model',
+                pathname: '/without_model',
                 state: { token: this.props.location.state.token, 
                         url_base: this.props.location.state.url_base,
                         message: message_model}
@@ -218,7 +218,7 @@ class ModelsComparisonFinished extends Component{
             <div>
                 {this.props.location.state !== undefined && "token" in  this.props.location.state ? (
                     <div>
-                        <Header con_cuenta = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
+                        <Header with_account = {true} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                         <GoBackButton/>
                         {this.state.performing_comparison === true ||  this.state.performing_reconstruction === true ? (
                             <Loading

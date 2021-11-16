@@ -18,7 +18,7 @@ class NoModel extends Component{
     render(){
         if (this.state.toHome === true) {
             return <Redirect push to={{
-                pathname: '/principal',
+                pathname: '/home',
                 state: { token: this.props.location.state.token, url_base: this.props.location.state.url_base}
             }}/>        
         }

@@ -41,9 +41,12 @@ class SignUp extends Component{
             .then(
                 response => {
                     
-                    this.setState({ success_signup: true});
+                    
                     sessionStorage.token = response.data.key;
                     sessionStorage.usuario  = values.username;
+                    console.log("VALORES")
+                    console.log(response.data.key, values.username)
+                    this.setState({ success_signup: true});
                 })
             .catch(error => {
                 this.setState({ nickname_email_used: true});
@@ -57,6 +60,7 @@ class SignUp extends Component{
         
 
         if (this.state.success_signup === true) {
+            console.log("LLEGA aquí")
             return <Redirect push to={{
                 pathname: '/success_signup',
                 state: { token: sessionStorage.token, url_base: this.props.location.state.url_base}
@@ -65,7 +69,7 @@ class SignUp extends Component{
 
         return(
             <div>
-                <Header con_cuenta = {false} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
+                <Header with_account = {false} help_message = {this.state.help_message} token = {this.props.location.state.token}  url_base = {this.props.location.state.url_base}/>
                 <GoBackButton/>
                 
                 <div className="card caja mx-auto mb-3 max_width_50">
