@@ -5,3 +5,4 @@
 /tomo/__pycache__
 /*.rdb
 octave-workspace
+/*.pyc
