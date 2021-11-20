@@ -118,7 +118,7 @@ class LogIn extends Component{
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text"><i className="fas fa-user"></i></span>
                                             </div>
-                                            <Field className="form-control" name="usuario" type="text" placeholder = "Usuario" />
+                                            <Field className="form-control" name="usuario" type="text" placeholder = "User" />
 
                                         </div>
                                         <div className = "error1">
@@ -129,7 +129,7 @@ class LogIn extends Component{
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text"></span>
                                             </div>
-                                            <Field className="form-control" name="contrasenha" type="password" placeholder = "Contraseña"/>
+                                            <Field className="form-control" name="contrasenha" type="password" placeholder = "Password"/>
                                         </div>
 
                                         <div className = "error1">
