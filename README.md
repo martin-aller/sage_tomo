@@ -1,7 +1,7 @@
 
 <h1>SageTomo</h1>
 
-SageTomo is a scientific software for the reconstruction of Electrical Impedance Tomographies (EIT) using Machine Learning models. In order to understand the most relevant aspects of SageTomo, you can take a look into ***SAGETOMO_SUMMARY.pdf***, which includes explanations about the architecture and technologies used to develop the software. Furthermore, you can watch the demo video ***nombre_video***, where the fundamental functionalities of SageTomo are displayed.
+SageTomo is a scientific software for the reconstruction of Electrical Impedance Tomographies (EIT) using Machine Learning models. In order to understand the most relevant aspects of SageTomo, you can take a look into ***SAGETOMO_SUMMARY.pdf***, which includes explanations about the architecture and technologies used to develop the software. Furthermore, you can watch the demo video ***SAGETOMO_VIDEO.mp4***, where the fundamental functionalities of SageTomo are displayed.
 
 
 ![home_screenshot](/example_files/home_screenshot.png?raw=true)
