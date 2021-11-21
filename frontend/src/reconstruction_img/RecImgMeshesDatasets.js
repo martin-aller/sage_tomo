@@ -30,8 +30,8 @@ class RecImgMeshesDatasets extends Component{
             show_btn_next: true,
             help_message: <p>In this window, you can reconstruct images associated with the meshes belonging to the datasets stored in the system. 
                 To do so, in the upper table, you must select the dataset you want to use. By default, the dataset with the lowest identifier 
-                is selected. In the table below, you can select the mesh from the chosen dataset you want to examine. You can 
-                filter the meshes according to the number of artifacts they contain.</p>
+                is selected. In the table below, you can select the mesh from the chosen dataset you want to examine. In that table, there is one row per mesh and one column per conductivity value. 
+                You can filter the meshes according to the number of artifacts they contain.</p>
 
           }
           this.handleChangePostprocesado = this.handleChangePostprocesado.bind(this);
